@@ -593,8 +593,10 @@ MANIFEST = {
 # ---------------------------------------------------------------------------
 # Build
 # ---------------------------------------------------------------------------
-def build(expire_date: str, max_days: int = 0, output: str = DEFAULT_OUTPUT, mode: str = "full"):
-    questions = load_questions(CSV_PATH)
+def build(expire_date: str, max_days: int = 0, output: str = DEFAULT_OUTPUT, mode: str = "full", csv_path: str = None, title: str = None):
+    if csv_path is None:
+        csv_path = CSV_PATH
+    questions = load_questions(csv_path)
     qtype_counts = {}
     for q in questions:
         qtype_counts[q["t"]] = qtype_counts.get(q["t"], 0) + 1
@@ -635,6 +637,11 @@ def build(expire_date: str, max_days: int = 0, output: str = DEFAULT_OUTPUT, mod
     html = html.replace("DECODE_FUNCTION", decode_fn)
     html = html.replace("DECODE_CALL", init_code)
 
+    if title:
+        html = html.replace("抗病毒药题库", title)
+        html = html.replace("抗病毒药 · 题库训练", title + " · 题库训练")
+        html = html.replace("药理学第四十四章", title)
+
     os.makedirs(os.path.dirname(output) or ".", exist_ok=True)
     with open(output, "w", encoding="utf-8") as f:
         f.write(html)
@@ -658,6 +665,8 @@ if __name__ == "__main__":
     parser.add_argument("--mode", choices=["full", "simple"], default="simple",
                         help="'simple' = all browsers incl. WeChat; 'full' = compressed")
     parser.add_argument("--output", default=DEFAULT_OUTPUT, help="Output HTML file")
+    parser.add_argument("--csv", default=None, help="CSV question file (default: antiviral_v2.csv)")
+    parser.add_argument("--title", default=None, help="Page title (default: 抗病毒药题库)")
     args = parser.parse_args()
 
     try:
@@ -666,4 +675,4 @@ if __name__ == "__main__":
         print(f"ERROR: Invalid date '{args.expire}'. Use YYYY-MM-DD.")
         sys.exit(1)
 
-    build(args.expire, args.max_days, args.output, args.mode)
+    build(args.expire, args.max_days, args.output, args.mode, args.csv, args.title)
