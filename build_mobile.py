@@ -593,7 +593,7 @@ MANIFEST = {
 # ---------------------------------------------------------------------------
 # Build
 # ---------------------------------------------------------------------------
-def build(expire_date: str, max_days: int = 0, output: str = DEFAULT_OUTPUT, mode: str = "full", csv_path: str = None, title: str = None, ls_prefix: str = None):
+def build(expire_date: str, max_days: int = 0, output: str = DEFAULT_OUTPUT, mode: str = "full", csv_path: str = None, title: str = None, ls_prefix: str = None, lang: str = "cn"):
     if csv_path is None:
         csv_path = CSV_PATH
     if ls_prefix is None:
@@ -642,7 +642,74 @@ def build(expire_date: str, max_days: int = 0, output: str = DEFAULT_OUTPUT, mod
     html = html.replace("DECODE_CALL", init_code)
     html = html.replace("LS_PREFIX", ls_prefix)
 
-    if title:
+    if lang == "en":
+        # Order matters: longer/more-specific phrases FIRST
+
+        # ---- JS complete strings (longest first) ----
+        html = html.replace('判断正误，选择「正确」或「错误」。', 'Select True or False.')
+        html = html.replace('本题有多个正确答案，请选择所有你认为正确的选项后点击「确认提交」。', 'This question has multiple correct answers. Select all that apply and click Submit.')
+        html = html.replace('请至少选择一个选项！', 'Please select at least one option!')
+        html = html.replace('暂无错题！', 'No wrong answers!')
+        html = html.replace('全部答完！', 'All questions answered!')
+        html = html.replace('确定重置所有答题进度？', 'Reset all progress?')
+
+        # ---- Expiry messages (complete) ----
+        html = html.replace("本应用有效期至 ", "This application is valid until ")
+        html = html.replace("本应用自首次使用起", "This application is valid for ")
+        html = html.replace("天内有效，已到期。请联系老师获取新版本。", " days from first use. It has expired. Please contact your instructor for a new version.")
+        html = html.replace("检测到系统时间异常。请将手机设置为自动时间后重试。", "System time anomaly detected. Please set your device to automatic time and try again.")
+        html = html.replace("应用校验失败。请从老师处重新获取。", "Application verification failed. Please obtain a new copy from your instructor.")
+        html = html.replace("题库加载失败，请重新下载。", "Failed to load question bank. Please re-download.")
+        html = html.replace("题库加载失败。", "Failed to load question bank.")
+        html = html.replace("应用已过期", "Application Expired")
+        html = html.replace("，已到期。", ". It has expired.")
+
+        # ---- JS type names ----
+        html = html.replace('"是非题":"是非题 (True/False)"', '"True/False":"True/False"')
+        html = html.replace('"单选题":"单选题"', '"Single Choice":"Single Choice"')
+        html = html.replace('"简答题(多选)":"简答题 (多选)"', '"Multiple Choice":"Multiple Choice"')
+
+        # ---- JS type comparisons (q.t checks) ----
+        html = html.replace('q.t==="是非题"', 'q.t==="True/False"')
+        html = html.replace('q.t==="简答题(多选)"', 'q.t==="Multiple Choice"')
+
+        # ---- Category dropdown: "全部 (N题)" -> "All (N questions)" (before 全部 replacement) ----
+        import re
+        html = re.sub(r'>全部 \((\d+)题\)<', r'>All (\1 questions)<', html)
+
+        # ---- Multi-char labels (before single-char) ----
+        html = html.replace("正确率", "Accuracy")
+        html = html.replace("学习统计", "Study Statistics")
+        html = html.replace("确认提交", "Submit")
+        html = html.replace("显示答案", "Show Answer")
+        html = html.replace("抗病毒药 · 题库训练", (title or "Pharmacology") + " · Quiz Bank")
+        html = html.replace("抗病毒药题库", title or "Pharmacology Quiz")
+        html = html.replace("抗病毒药训练题库", title or "Pharmacology Quiz Bank")
+        html = html.replace("药理学第四十四章", title or "Pharmacology Chapter")
+        html = html.replace('q.t||"单选题"', 'q.t||"Single Choice"')
+        html = html.replace('q.c||"综合"', 'q.c||"General"')
+        html = html.replace("全部 ('+QS.length+'题)", "All ('+QS.length+' questions)")
+
+        # ---- Select dropdown options ----
+        html = html.replace('value="all">全部</option>', 'value="all">All</option>')
+        html = html.replace('value="all">顺序</option>', 'value="all">Sequential</option>')
+        html = html.replace('value="rnd">随机</option>', 'value="rnd">Random</option>')
+        html = html.replace('value="wrong">错题</option>', 'value="wrong">Wrong</option>')
+        html = html.replace('value="unans">未答</option>', 'value="unans">Unanswered</option>')
+
+        # ---- Single-char labels (AFTER multi-char) ----
+        html = html.replace("已答", "Answered")
+        html = html.replace("正确", "Correct")
+        html = html.replace("解析", "Explanation")
+        html = html.replace("重置", "Reset")
+        html = html.replace("全部", "All")
+        html = html.replace("顺序", "Sequential")
+        html = html.replace("错题", "Wrong")
+        html = html.replace("随机", "Random")
+        html = html.replace("错误", "False")
+        html = html.replace("未答", "Unanswered")
+
+    elif title:
         html = html.replace("抗病毒药题库", title)
         html = html.replace("抗病毒药 · 题库训练", title + " · 题库训练")
         html = html.replace("药理学第四十四章", title)
@@ -674,6 +741,7 @@ if __name__ == "__main__":
     parser.add_argument("--csv", default=None, help="CSV question file (default: antiviral_v2.csv)")
     parser.add_argument("--title", default=None, help="Page title (default: 抗病毒药题库)")
     parser.add_argument("--key", default=None, help="LocalStorage key prefix (auto-derived from CSV name if omitted, e.g. _ch36_)")
+    parser.add_argument("--lang", choices=["cn", "en"], default="cn", help="UI language: cn (Chinese) or en (English)")
     args = parser.parse_args()
 
     try:
@@ -682,4 +750,4 @@ if __name__ == "__main__":
         print(f"ERROR: Invalid date '{args.expire}'. Use YYYY-MM-DD.")
         sys.exit(1)
 
-    build(args.expire, args.max_days, args.output, args.mode, args.csv, args.title, args.key)
+    build(args.expire, args.max_days, args.output, args.mode, args.csv, args.title, args.key, args.lang)

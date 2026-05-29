@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="Ch16">
 <meta name="wechat-enable-text-zoom" content="false">
 <meta itemprop="name" content="Ch16">
-<meta itemprop="description" content="Ch16 · 抗病毒药训练题库">
+<meta itemprop="description" content="Ch16 · Ch16">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#2563eb">
 <title>Ch16</title>
@@ -118,14 +118,14 @@ select,button{padding:7px 10px;border:1px solid var(--b);border-radius:8px;font-
 
 <div class="splash" id="splash">
   <div class="splash-icon">💊</div>
-  <div class="splash-title">Ch16 · 题库训练</div>
+  <div class="splash-title">Ch16 · Quiz Bank</div>
   <div class="splash-sub">Ch16</div>
   <div class="splash-loader"><div class="splash-loader-fill"></div></div>
 </div>
 
 <div id="expiredView" class="expired" style="display:none">
   <div class="expired-icon">⏰</div>
-  <div class="expired-title">应用已过期</div>
+  <div class="expired-title">Application Expired</div>
   <div class="expired-text" id="expiredMsg"></div>
 </div>
 
@@ -134,20 +134,20 @@ select,button{padding:7px 10px;border:1px solid var(--b);border-radius:8px;font-
   <div class="topbar">
     <h1>Ch16</h1>
     <div class="top-stats">
-      <span>已答<strong id="hAns">0</strong>/<span id="hTot">100</span></span>
-      <span>正确<strong id="hCor">0</strong></span>
+      <span>Answered<strong id="hAns">0</strong>/<span id="hTot">100</span></span>
+      <span>Correct<strong id="hCor">0</strong></span>
       <span><strong id="hPct">-</strong></span>
     </div>
   </div>
 
   <div class="controls">
-    <select id="catSel" onchange="applyFilter()"><option value="all">全部</option></select>
+    <select id="catSel" onchange="applyFilter()"><option value="all">All</option></select>
     <select id="modeSel" onchange="applyFilter()">
-      <option value="all">顺序</option><option value="rnd">随机</option>
-      <option value="wrong">错题</option><option value="unans">未答</option>
+      <option value="all">Sequential</option><option value="rnd">Random</option>
+      <option value="wrong">Wrong</option><option value="unans">Unanswered</option>
     </select>
     <div class="flex1"></div>
-    <button class="btn-o" onclick="resetAll()">重置</button>
+    <button class="btn-o" onclick="resetAll()">Reset</button>
   </div>
 
   <div class="card">
@@ -160,9 +160,9 @@ select,button{padding:7px 10px;border:1px solid var(--b);border-radius:8px;font-
       <div class="q-text" id="qText"></div>
       <div class="q-hint" id="qHint"></div>
       <div class="options" id="qOpts"></div>
-      <button class="btn-submit" id="btnSubmit" onclick="submitMulti()">确认提交</button>
+      <button class="btn-submit" id="btnSubmit" onclick="submitMulti()">Submit</button>
       <div class="expl" id="qExpl">
-        <div class="expl-title">解析</div>
+        <div class="expl-title">Explanation</div>
         <div id="qExplText"></div>
       </div>
     </div>
@@ -170,11 +170,11 @@ select,button{padding:7px 10px;border:1px solid var(--b);border-radius:8px;font-
   </div>
 
   <div class="stats">
-    <h3>学习统计</h3>
+    <h3>Study Statistics</h3>
     <div class="stats-grid">
-      <div class="st-item"><div class="st-val" id="stAns">0</div><div class="st-label">已答</div></div>
-      <div class="st-item"><div class="st-val" id="stCor">0</div><div class="st-label">正确</div></div>
-      <div class="st-item"><div class="st-val" id="stPct">-</div><div class="st-label">正确率</div></div>
+      <div class="st-item"><div class="st-val" id="stAns">0</div><div class="st-label">Answered</div></div>
+      <div class="st-item"><div class="st-val" id="stCor">0</div><div class="st-label">Correct</div></div>
+      <div class="st-item"><div class="st-val" id="stPct">-</div><div class="st-label">Accuracy</div></div>
     </div>
   </div>
 </div>
@@ -183,20 +183,20 @@ select,button{padding:7px 10px;border:1px solid var(--b);border-radius:8px;font-
   <button class="btm-btn" id="btnPrev" onclick="prevQ()" disabled>◀</button>
   <span class="counter" id="navInfo">1/100</span>
   <button class="btm-btn" id="btnNext" onclick="nextQ()">▶</button>
-  <button class="btm-btn danger" id="btnReveal" onclick="reveal()">显示答案</button>
+  <button class="btm-btn danger" id="btnReveal" onclick="reveal()">Show Answer</button>
 </div>
 
 <script>
 // ===== EXPIRY CONFIG =====
-var __EXP={date:"2026-09-01",sig:"na",maxDays:90,build:"202605291409"};
+var __EXP={date:"2026-09-01",sig:"na",maxDays:90,build:"202605291430"};
 
 (function(){
   var raw=__EXP.date+":"+__EXP.maxDays+":"+__EXP.build,h=0;
   for(var i=0;i<raw.length;i++)h=((h*31)+raw.charCodeAt(i))>>>0;
   h=((h>>>16)^(h&0xFFFF)).toString(16);
   if(h.length<4)h="0".repeat(4-h.length)+h;
-  if(h!=="e078"){
-    document.body.innerHTML='<div style="padding:40px;text-align:center;color:#dc2626;font-size:1.1rem">应用校验失败。请从老师处重新获取。</div>';
+  if(h!=="e0d4"){
+    document.body.innerHTML='<div style="padding:40px;text-align:center;color:#dc2626;font-size:1.1rem">Application verification failed. Please obtain a new copy from your instructor.</div>';
     throw new Error("integrity");
   }
 
@@ -212,7 +212,7 @@ var __EXP={date:"2026-09-01",sig:"na",maxDays:90,build:"202605291409"};
     var fu=new Date(firstUse);
     if(now<fu){
       document.getElementById("expiredView").style.display="flex";
-      document.getElementById("expiredMsg").textContent="检测到系统时间异常。请将手机设置为自动时间后重试。";
+      document.getElementById("expiredMsg").textContent="System time anomaly detected. Please set your device to automatic time and try again.";
       return;
     }
     if(__EXP.maxDays>0){
@@ -220,7 +220,7 @@ var __EXP={date:"2026-09-01",sig:"na",maxDays:90,build:"202605291409"};
       maxEnd.setDate(maxEnd.getDate()+__EXP.maxDays);
       if(now>maxEnd){
         document.getElementById("expiredView").style.display="flex";
-        document.getElementById("expiredMsg").textContent="本应用自首次使用起"+__EXP.maxDays+"天内有效，已到期。请联系老师获取新版本。";
+        document.getElementById("expiredMsg").textContent="This application is valid for "+__EXP.maxDays+" days from first use. It has expired. Please contact your instructor for a new version.";
         return;
       }
     }
@@ -229,7 +229,7 @@ var __EXP={date:"2026-09-01",sig:"na",maxDays:90,build:"202605291409"};
 
   if(now>expireDate){
     document.getElementById("expiredView").style.display="flex";
-    document.getElementById("expiredMsg").textContent="本应用有效期至 "+expireDate.toLocaleDateString("zh-CN")+"，已到期。";
+    document.getElementById("expiredMsg").textContent="This application is valid until "+expireDate.toLocaleDateString("zh-CN")+". It has expired.";
     return;
   }
   window._avReady=true;
@@ -260,10 +260,10 @@ function _sortStr(s){return s.split("").sort().join("");}
 
 function init(){
   if(!window._avReady)return;_l();
-  try{var raw=_decode();QS=JSON.parse(raw)}catch(e){document.getElementById("splash").innerHTML='<p style="color:#dc2626">题库加载失败。</p>';return}
+  try{var raw=_decode();QS=JSON.parse(raw)}catch(e){document.getElementById("splash").innerHTML='<p style="color:#dc2626">Failed to load question bank.</p>';return}
   document.getElementById("hTot").textContent=QS.length;
   var cats={};QS.forEach(function(q){cats[q.c]=(cats[q.c]||0)+1});
-  var sel=document.getElementById("catSel");sel.innerHTML='<option value="all">全部 ('+QS.length+'题)</option>';
+  var sel=document.getElementById("catSel");sel.innerHTML='<option value="all">All ('+QS.length+' questions)</option>';
   Object.keys(cats).sort().forEach(function(c){sel.innerHTML+='<option value="'+_esc(c)+'">'+_esc(c)+' ('+cats[c]+')</option>'});
   document.getElementById("splash").style.display="none";
   document.getElementById("app").style.display="block";
@@ -274,22 +274,22 @@ init();
 function render(){
   if(!QS.length)return;
   var q=QS[currentIdx],idx=currentIdx;
-  var typeNames={"是非题":"是非题 (True/False)","单选题":"单选题","简答题(多选)":"简答题 (多选)"};
-  document.getElementById("qType").textContent=q.t||"单选题";
-  document.getElementById("qCat").textContent=q.c||"综合";
+  var typeNames={"True/False":"True/False","Single Choice":"Single Choice","Multiple Choice":"Multiple Choice"};
+  document.getElementById("qType").textContent=q.t||"Single Choice";
+  document.getElementById("qCat").textContent=q.c||"General";
   document.getElementById("qNum").textContent=(idx+1)+"/"+QS.length;
   document.getElementById("qText").textContent=q.q;
 
   // Hint text
   var hint="";
-  if(q.t==="是非题")hint="判断正误，选择「正确」或「错误」。";
-  else if(q.t==="简答题(多选)")hint="本题有多个正确答案，请选择所有你认为正确的选项后点击「确认提交」。";
+  if(q.t==="True/False")hint="Select True or False.";
+  else if(q.t==="Multiple Choice")hint="This question has multiple correct answers. Select all that apply and click Submit.";
   document.getElementById("qHint").textContent=hint;
 
   var labels="ABCDEFGHIJ".split("");
   var answered=answers[q.id]!==undefined;
   var ua=answers[q.id],ca=correctMap[q.id];
-  var isMulti=q.t==="简答题(多选)";
+  var isMulti=q.t==="Multiple Choice";
   var body=document.getElementById("qBody");
   var submitBtn=document.getElementById("btnSubmit");
 
@@ -352,7 +352,7 @@ function submitMulti(){
   if(!q||answers[q.id]!==undefined)return;
   var sel=[];
   if(multiSel[q.id]){for(var k in multiSel[q.id]){if(multiSel[q.id][k])sel.push(k)}}
-  if(sel.length===0){_toast("请至少选择一个选项！","w");return}
+  if(sel.length===0){_toast("Please select at least one option!","w");return}
   var combined=sel.sort().join("");
   answer(combined);
 }
@@ -406,19 +406,19 @@ function applyFilter(){
   if(cat!=="all")pool=pool.filter(function(q){return q.c===cat});
   if(mode==="wrong"){
     var w=pool.filter(function(q){return answers[q.id]&&answers[q.id]!=="__SKIP__"&&!_isCorrect(q.id)});
-    if(w.length===0){_toast("暂无错题！","o");document.getElementById("modeSel").value="all";return}
+    if(w.length===0){_toast("No wrong answers!","o");document.getElementById("modeSel").value="all";return}
     currentIdx=QS.indexOf(w[0]);
   }else if(mode==="rnd"){currentIdx=QS.indexOf(pool[Math.floor(Math.random()*pool.length)])}
   else if(mode==="unans"){
     var u=pool.filter(function(q){return!answers[q.id]});
-    if(u.length===0){_toast("全部答完！","o");document.getElementById("modeSel").value="all";return}
+    if(u.length===0){_toast("All questions answered!","o");document.getElementById("modeSel").value="all";return}
     currentIdx=QS.indexOf(u[0]);
   }
   render();
 }
 
 function resetAll(){
-  if(!confirm("确定重置所有答题进度？"))return;
+  if(!confirm("Reset all progress?"))return;
   answers={};correctMap={};explanations={};multiSel={};_s();currentIdx=0;
   document.getElementById("modeSel").value="all";render();
 }
@@ -433,7 +433,7 @@ function _toast(m,t){
 document.addEventListener("keydown",function(e){
   var q=QS[currentIdx];if(!q)return;
   if(!answers[q.id]){
-    if(q.t==="简答题(多选)"){
+    if(q.t==="Multiple Choice"){
       var lbl=String.fromCharCode(e.keyCode); // A-J
       if("ABCDEFGHIJ".indexOf(lbl)>=0 && lbl<=String.fromCharCode(64+q.o.length))toggleOpt(lbl);
       if(e.key==="Enter")submitMulti();
