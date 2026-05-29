@@ -5,289 +5,550 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="药理学题库">
-<meta itemprop="name" content="药理学题库">
-<meta itemprop="description" content="药理学全教材题库训练 · 共46章 2760题">
-<meta name="twitter:card" content="summary">
-<title>药理学题库</title>
+<title>Pharmacology Quiz Bank / 药理学题库</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f0f4f8;color:#1a202c;min-height:100vh}
-.header{background:linear-gradient(135deg,#2c5282,#38a169);color:#fff;padding:28px 16px 24px;text-align:center}
-.header h1{font-size:1.5rem;font-weight:700;margin-bottom:5px}
-.header p{font-size:.85rem;opacity:.85;margin-top:4px}
-.container{max-width:680px;margin:0 auto;padding:12px}
-.section-title{font-size:.82rem;font-weight:600;color:#4a5568;padding:14px 8px 6px;text-transform:uppercase;letter-spacing:.5px}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:#f0f4f8;color:#1a202c;min-height:100vh}
+.header{background:linear-gradient(135deg,#2c5282,#38a169);color:#fff;padding:20px 16px 18px;text-align:center}
+.header h1{font-size:1.4rem;font-weight:700;margin-bottom:4px}
+.header p{font-size:.82rem;opacity:.85}
+.lang-bar{display:flex;justify-content:center;gap:0;padding:14px 12px 10px;background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:100}
+.lang-btn{padding:8px 28px;border:2px solid #e2e8f0;font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit;background:#fff;color:#718096;transition:all .15s}
+.lang-btn:first-child{border-radius:8px 0 0 8px}
+.lang-btn:last-child{border-radius:0 8px 8px 0}
+.lang-btn.active{background:#2c5282;color:#fff;border-color:#2c5282}
+.lang-btn.cn{} .lang-btn.en{}
+.container{max-width:680px;margin:0 auto;padding:10px 12px}
+.section-title{font-size:.8rem;font-weight:600;color:#4a5568;padding:12px 6px 4px;letter-spacing:.5px}
 .card{background:#fff;border-radius:10px;margin-bottom:4px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}
-.card a{display:flex;align-items:center;padding:12px 16px;text-decoration:none;color:#1a202c;transition:background .15s}
+.card a{display:flex;align-items:center;padding:11px 14px;text-decoration:none;color:#1a202c}
 .card a:active{background:#edf2f7}
-.card-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;margin-right:12px;flex-shrink:0}
+.card-num{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;margin-right:12px;flex-shrink:0}
 .card-info{flex:1;min-width:0}
-.card-title{font-size:.88rem;font-weight:600;margin-bottom:2px}
+.card-title{font-size:.86rem;font-weight:600;margin-bottom:2px}
 .card-meta{font-size:.7rem;color:#718096}
-.card-meta span{margin-right:8px}
 .arr{color:#a0aec0;font-size:1rem;margin-left:6px}
-.footer{text-align:center;padding:20px;color:#a0aec0;font-size:.72rem}
-.c1 .card-num{background:#ebf4ff;color:#2b6cb0}
-.c2 .card-num{background:#f0fff4;color:#276749}
-.c3 .card-num{background:#fffbeb;color:#975a16}
-.c4 .card-num{background:#faf5ff;color:#6b46c1}
-.c5 .card-num{background:#fff5f5;color:#c53030}
-.c6 .card-num{background:#f0fff4;color:#276749}
-.c7 .card-num{background:#ebf8ff;color:#2c5282}
-.c8 .card-num{background:#fffbeb;color:#975a16}
+.footer{text-align:center;padding:20px;color:#a0aec0;font-size:.7rem}
+.cn-list,.en-list{display:none}
+.cn-list.show,.en-list.show{display:block}
 </style>
 </head>
 <body>
 <div class="header">
-<h1>药理学 · 题库训练</h1>
-<p>全教材共46章 · 总计2760题 · 各章含是非题/单选题/简答题(多选)</p>
+<h1>Pharmacology Quiz Bank</h1>
+<p>46 Chapters · 2760 Questions · True/False &amp; Single Choice &amp; Multiple Choice</p>
+</div>
+<div class="lang-bar">
+<button class="lang-btn cn active" onclick="switchLang('cn')">中文</button>
+<button class="lang-btn en" onclick="switchLang('en')">English</button>
 </div>
 <div class="container">
+<div class="cn-list show" id="cnList">
 
 <div class="section-title">第一篇  总论</div>
-<div class="card c1"><a href="ch01_cn.html">
-<div class="card-num">1</div>
-<div class="card-info"><div class="card-title">绪论</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch01_cn.html">
+<div class="card-num" style="background:#ebf4ff;color:#2b6cb0">1</div>
+<div class="card-info"><div class="card-title">绪论</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c2"><a href="ch02_cn.html">
-<div class="card-num">2</div>
-<div class="card-info"><div class="card-title">药物效应动力学</div><div class="card-meta"><span>75题</span><span>15+52+8</span></div></div>
+<div class="card"><a href="ch02_cn.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">2</div>
+<div class="card-info"><div class="card-title">药物效应动力学</div><div class="card-meta">75 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c3"><a href="ch03_cn.html">
-<div class="card-num">3</div>
-<div class="card-info"><div class="card-title">药物代谢动力学</div><div class="card-meta"><span>100题</span><span>20+70+10</span></div></div>
+<div class="card"><a href="ch03_cn.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">3</div>
+<div class="card-info"><div class="card-title">药物代谢动力学</div><div class="card-meta">100 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c4"><a href="ch04_cn.html">
-<div class="card-num">4</div>
-<div class="card-info"><div class="card-title">影响药物效应的因素及合理用药原则</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch04_cn.html">
+<div class="card-num" style="background:#faf5ff;color:#6b46c1">4</div>
+<div class="card-info"><div class="card-title">影响药物效应的因素及合理用药原则</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
 
 <div class="section-title">第二篇  外周神经系统药理学</div>
-<div class="card c5"><a href="ch05_cn.html">
-<div class="card-num">5</div>
-<div class="card-info"><div class="card-title">神经系统药理概论</div><div class="card-meta"><span>100题</span><span>20+70+10</span></div></div>
+<div class="card"><a href="ch05_cn.html">
+<div class="card-num" style="background:#fff5f5;color:#c53030">5</div>
+<div class="card-info"><div class="card-title">神经系统药理概论</div><div class="card-meta">100 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c6"><a href="ch06_cn.html">
-<div class="card-num">6</div>
-<div class="card-info"><div class="card-title">胆碱受体激动药</div><div class="card-meta"><span>30题</span><span>6+21+3</span></div></div>
+<div class="card"><a href="ch06_cn.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">6</div>
+<div class="card-info"><div class="card-title">胆碱受体激动药</div><div class="card-meta">30 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c7"><a href="ch07_cn.html">
-<div class="card-num">7</div>
-<div class="card-info"><div class="card-title">抗胆碱酯酶药和胆碱酯酶复活药</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch07_cn.html">
+<div class="card-num" style="background:#ebf8ff;color:#2c5282">7</div>
+<div class="card-info"><div class="card-title">抗胆碱酯酶药和胆碱酯酶复活药</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c8"><a href="ch08_cn.html">
-<div class="card-num">8</div>
-<div class="card-info"><div class="card-title">胆碱受体阻断药</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch08_cn.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">8</div>
+<div class="card-info"><div class="card-title">胆碱受体阻断药</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c1"><a href="ch09_cn.html">
-<div class="card-num">9</div>
-<div class="card-info"><div class="card-title">肾上腺素受体激动药</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch09_cn.html">
+<div class="card-num" style="background:#ebf4ff;color:#2b6cb0">9</div>
+<div class="card-info"><div class="card-title">肾上腺素受体激动药</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c2"><a href="ch10_cn.html">
-<div class="card-num">10</div>
-<div class="card-info"><div class="card-title">肾上腺素受体阻断药</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch10_cn.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">10</div>
+<div class="card-info"><div class="card-title">肾上腺素受体阻断药</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c3"><a href="ch11_cn.html">
-<div class="card-num">11</div>
-<div class="card-info"><div class="card-title">局部麻醉药</div><div class="card-meta"><span>30题</span><span>6+21+3</span></div></div>
+<div class="card"><a href="ch11_cn.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">11</div>
+<div class="card-info"><div class="card-title">局部麻醉药</div><div class="card-meta">30 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c4"><a href="ch12_cn.html">
-<div class="card-num">12</div>
-<div class="card-info"><div class="card-title">全身麻醉药</div><div class="card-meta"><span>30题</span><span>6+21+3</span></div></div>
+<div class="card"><a href="ch12_cn.html">
+<div class="card-num" style="background:#faf5ff;color:#6b46c1">12</div>
+<div class="card-info"><div class="card-title">全身麻醉药</div><div class="card-meta">30 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
 
 <div class="section-title">第三篇  中枢神经系统药理学</div>
-<div class="card c5"><a href="ch13_cn.html">
-<div class="card-num">13</div>
-<div class="card-info"><div class="card-title">镇静催眠药和促觉醒药</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch13_cn.html">
+<div class="card-num" style="background:#fff5f5;color:#c53030">13</div>
+<div class="card-info"><div class="card-title">镇静催眠药和促觉醒药</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c6"><a href="ch14_cn.html">
-<div class="card-num">14</div>
-<div class="card-info"><div class="card-title">抗癫痫药与抗惊厥药</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch14_cn.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">14</div>
+<div class="card-info"><div class="card-title">抗癫痫药与抗惊厥药</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c7"><a href="ch15_cn.html">
-<div class="card-num">15</div>
-<div class="card-info"><div class="card-title">治疗神经退行性变性疾病药物</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch15_cn.html">
+<div class="card-num" style="background:#ebf8ff;color:#2c5282">15</div>
+<div class="card-info"><div class="card-title">治疗神经退行性变性疾病药物</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c8"><a href="ch16_cn.html">
-<div class="card-num">16</div>
-<div class="card-info"><div class="card-title">抗精神失常药</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch16_cn.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">16</div>
+<div class="card-info"><div class="card-title">抗精神失常药</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c1"><a href="ch17_cn.html">
-<div class="card-num">17</div>
-<div class="card-info"><div class="card-title">阿片类镇痛药、药物依赖性与药物滥用</div><div class="card-meta"><span>75题</span><span>15+52+8</span></div></div>
+<div class="card"><a href="ch17_cn.html">
+<div class="card-num" style="background:#ebf4ff;color:#2b6cb0">17</div>
+<div class="card-info"><div class="card-title">阿片类镇痛药、药物依赖性与药物滥用</div><div class="card-meta">75 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c2"><a href="ch18_cn.html">
-<div class="card-num">18</div>
-<div class="card-info"><div class="card-title">解热镇痛抗炎药</div><div class="card-meta"><span>75题</span><span>15+52+8</span></div></div>
+<div class="card"><a href="ch18_cn.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">18</div>
+<div class="card-info"><div class="card-title">解热镇痛抗炎药</div><div class="card-meta">75 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c3"><a href="ch19_cn.html">
-<div class="card-num">19</div>
-<div class="card-info"><div class="card-title">影响其他自身活性物质的药物</div><div class="card-meta"><span>75题</span><span>15+52+8</span></div></div>
+<div class="card"><a href="ch19_cn.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">19</div>
+<div class="card-info"><div class="card-title">影响其他自身活性物质的药物</div><div class="card-meta">75 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c4"><a href="ch20_cn.html">
-<div class="card-num">20</div>
-<div class="card-info"><div class="card-title">免疫调节药</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch20_cn.html">
+<div class="card-num" style="background:#faf5ff;color:#6b46c1">20</div>
+<div class="card-info"><div class="card-title">免疫调节药</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
 
 <div class="section-title">第四篇  心血管系统药理学</div>
-<div class="card c5"><a href="ch21_cn.html">
-<div class="card-num">21</div>
-<div class="card-info"><div class="card-title">利尿药与脱水药</div><div class="card-meta"><span>30题</span><span>6+21+3</span></div></div>
+<div class="card"><a href="ch21_cn.html">
+<div class="card-num" style="background:#fff5f5;color:#c53030">21</div>
+<div class="card-info"><div class="card-title">利尿药与脱水药</div><div class="card-meta">30 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c6"><a href="ch22_cn.html">
-<div class="card-num">22</div>
-<div class="card-info"><div class="card-title">抗心律失常药</div><div class="card-meta"><span>75题</span><span>15+52+8</span></div></div>
+<div class="card"><a href="ch22_cn.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">22</div>
+<div class="card-info"><div class="card-title">抗心律失常药</div><div class="card-meta">75 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c7"><a href="ch23_cn.html">
-<div class="card-num">23</div>
-<div class="card-info"><div class="card-title">抗心肌缺血药</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch23_cn.html">
+<div class="card-num" style="background:#ebf8ff;color:#2c5282">23</div>
+<div class="card-info"><div class="card-title">抗心肌缺血药</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c8"><a href="ch24_cn.html">
-<div class="card-num">24</div>
-<div class="card-info"><div class="card-title">调血脂药和抗动脉粥样硬化药</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch24_cn.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">24</div>
+<div class="card-info"><div class="card-title">调血脂药和抗动脉粥样硬化药</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c1"><a href="ch25_cn.html">
-<div class="card-num">25</div>
-<div class="card-info"><div class="card-title">抗高血压药</div><div class="card-meta"><span>75题</span><span>15+52+8</span></div></div>
+<div class="card"><a href="ch25_cn.html">
+<div class="card-num" style="background:#ebf4ff;color:#2b6cb0">25</div>
+<div class="card-info"><div class="card-title">抗高血压药</div><div class="card-meta">75 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c2"><a href="ch26_cn.html">
-<div class="card-num">26</div>
-<div class="card-info"><div class="card-title">抗慢性心功能不全药</div><div class="card-meta"><span>75题</span><span>15+52+8</span></div></div>
+<div class="card"><a href="ch26_cn.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">26</div>
+<div class="card-info"><div class="card-title">抗慢性心功能不全药</div><div class="card-meta">75 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c3"><a href="ch27_cn.html">
-<div class="card-num">27</div>
-<div class="card-info"><div class="card-title">作用于血液及造血器官的药物</div><div class="card-meta"><span>75题</span><span>15+52+8</span></div></div>
+<div class="card"><a href="ch27_cn.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">27</div>
+<div class="card-info"><div class="card-title">作用于血液及造血器官的药物</div><div class="card-meta">75 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c4"><a href="ch28_cn.html">
-<div class="card-num">28</div>
-<div class="card-info"><div class="card-title">作用于呼吸系统的药物</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch28_cn.html">
+<div class="card-num" style="background:#faf5ff;color:#6b46c1">28</div>
+<div class="card-info"><div class="card-title">作用于呼吸系统的药物</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c5"><a href="ch29_cn.html">
-<div class="card-num">29</div>
-<div class="card-info"><div class="card-title">作用于消化系统的药物</div><div class="card-meta"><span>75题</span><span>15+52+8</span></div></div>
+<div class="card"><a href="ch29_cn.html">
+<div class="card-num" style="background:#fff5f5;color:#c53030">29</div>
+<div class="card-info"><div class="card-title">作用于消化系统的药物</div><div class="card-meta">75 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
 
 <div class="section-title">第五篇  内分泌系统药理学</div>
-<div class="card c6"><a href="ch30_cn.html">
-<div class="card-num">30</div>
-<div class="card-info"><div class="card-title">子宫平滑肌兴奋药和抑制药</div><div class="card-meta"><span>30题</span><span>6+21+3</span></div></div>
+<div class="card"><a href="ch30_cn.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">30</div>
+<div class="card-info"><div class="card-title">子宫平滑肌兴奋药和抑制药</div><div class="card-meta">30 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c7"><a href="ch31_cn.html">
-<div class="card-num">31</div>
-<div class="card-info"><div class="card-title">肾上腺皮质激素类药物</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch31_cn.html">
+<div class="card-num" style="background:#ebf8ff;color:#2c5282">31</div>
+<div class="card-info"><div class="card-title">肾上腺皮质激素类药物</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c8"><a href="ch32_cn.html">
-<div class="card-num">32</div>
-<div class="card-info"><div class="card-title">抗糖尿病药</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch32_cn.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">32</div>
+<div class="card-info"><div class="card-title">抗糖尿病药</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c1"><a href="ch33_cn.html">
-<div class="card-num">33</div>
-<div class="card-info"><div class="card-title">甲状腺激素和抗甲状腺药</div><div class="card-meta"><span>30题</span><span>6+21+3</span></div></div>
+<div class="card"><a href="ch33_cn.html">
+<div class="card-num" style="background:#ebf4ff;color:#2b6cb0">33</div>
+<div class="card-info"><div class="card-title">甲状腺激素和抗甲状腺药</div><div class="card-meta">30 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c2"><a href="ch34_cn.html">
-<div class="card-num">34</div>
-<div class="card-info"><div class="card-title">性激素类药与避孕药</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch34_cn.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">34</div>
+<div class="card-info"><div class="card-title">性激素类药与避孕药</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c3"><a href="ch35_cn.html">
-<div class="card-num">35</div>
-<div class="card-info"><div class="card-title">抗骨质疏松药</div><div class="card-meta"><span>30题</span><span>6+21+3</span></div></div>
+<div class="card"><a href="ch35_cn.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">35</div>
+<div class="card-info"><div class="card-title">抗骨质疏松药</div><div class="card-meta">30 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
 
 <div class="section-title">第七篇  化学治疗药物</div>
-<div class="card c4"><a href="ch36_cn.html">
-<div class="card-num">36</div>
-<div class="card-info"><div class="card-title">抗菌药物概论</div><div class="card-meta"><span>100题</span><span>20+70+10</span></div></div>
+<div class="card"><a href="ch36_cn.html">
+<div class="card-num" style="background:#faf5ff;color:#6b46c1">36</div>
+<div class="card-info"><div class="card-title">抗菌药物概论</div><div class="card-meta">100 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c5"><a href="ch37_cn.html">
-<div class="card-num">37</div>
-<div class="card-info"><div class="card-title">β-内酰胺类抗生素及其他作用于细胞壁的抗生素</div><div class="card-meta"><span>100题</span><span>20+70+10</span></div></div>
+<div class="card"><a href="ch37_cn.html">
+<div class="card-num" style="background:#fff5f5;color:#c53030">37</div>
+<div class="card-info"><div class="card-title">β-内酰胺类抗生素及其他作用于细胞壁的抗生素</div><div class="card-meta">100 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c6"><a href="ch38_cn.html">
-<div class="card-num">38</div>
-<div class="card-info"><div class="card-title">大环内酯类、林可霉素类及其他抗生素</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch38_cn.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">38</div>
+<div class="card-info"><div class="card-title">大环内酯类、林可霉素类及其他抗生素</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c7"><a href="ch39_cn.html">
-<div class="card-num">39</div>
-<div class="card-info"><div class="card-title">氨基糖苷类及多黏菌素类抗生素</div><div class="card-meta"><span>75题</span><span>15+52+8</span></div></div>
+<div class="card"><a href="ch39_cn.html">
+<div class="card-num" style="background:#ebf8ff;color:#2c5282">39</div>
+<div class="card-info"><div class="card-title">氨基糖苷类及多黏菌素类抗生素</div><div class="card-meta">75 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c8"><a href="ch40_cn.html">
-<div class="card-num">40</div>
-<div class="card-info"><div class="card-title">四环素类及氯霉素类抗生素</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch40_cn.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">40</div>
+<div class="card-info"><div class="card-title">四环素类及氯霉素类抗生素</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c1"><a href="ch41_cn.html">
-<div class="card-num">41</div>
-<div class="card-info"><div class="card-title">人工合成抗菌药</div><div class="card-meta"><span>100题</span><span>20+70+10</span></div></div>
+<div class="card"><a href="ch41_cn.html">
+<div class="card-num" style="background:#ebf4ff;color:#2b6cb0">41</div>
+<div class="card-info"><div class="card-title">人工合成抗菌药</div><div class="card-meta">100 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c2"><a href="ch42_cn.html">
-<div class="card-num">42</div>
-<div class="card-info"><div class="card-title">抗结核病药及抗麻风药</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch42_cn.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">42</div>
+<div class="card-info"><div class="card-title">抗结核病药及抗麻风药</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c3"><a href="ch43_cn.html">
-<div class="card-num">43</div>
-<div class="card-info"><div class="card-title">抗真菌药</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch43_cn.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">43</div>
+<div class="card-info"><div class="card-title">抗真菌药</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c4"><a href="ch44_cn.html">
-<div class="card-num">44</div>
-<div class="card-info"><div class="card-title">抗病毒药</div><div class="card-meta"><span>100题</span><span>20+70+10</span></div></div>
+<div class="card"><a href="ch44_cn.html">
+<div class="card-num" style="background:#faf5ff;color:#6b46c1">44</div>
+<div class="card-info"><div class="card-title">抗病毒药</div><div class="card-meta">100 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c5"><a href="ch45_cn.html">
-<div class="card-num">45</div>
-<div class="card-info"><div class="card-title">抗寄生虫药</div><div class="card-meta"><span>50题</span><span>10+35+5</span></div></div>
+<div class="card"><a href="ch45_cn.html">
+<div class="card-num" style="background:#fff5f5;color:#c53030">45</div>
+<div class="card-info"><div class="card-title">抗寄生虫药</div><div class="card-meta">50 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
-<div class="card c6"><a href="ch46_cn.html">
-<div class="card-num">46</div>
-<div class="card-info"><div class="card-title">抗恶性肿瘤药</div><div class="card-meta"><span>100题</span><span>20+70+10</span></div></div>
+<div class="card"><a href="ch46_cn.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">46</div>
+<div class="card-info"><div class="card-title">抗恶性肿瘤药</div><div class="card-meta">100 questions</div></div>
 <div class="arr">&#8250;</div>
 </a></div>
 
 </div>
-<div class="footer">药理学题库 &copy; 2026 · 仅供教学使用 · 有效期至2026-09-01</div>
+<div class="en-list" id="enList">
+
+<div class="section-title">Part 1: General Principles</div>
+<div class="card"><a href="ch01_en.html">
+<div class="card-num" style="background:#ebf4ff;color:#2b6cb0">1</div>
+<div class="card-info"><div class="card-title">Introduction to Pharmacology</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch02_en.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">2</div>
+<div class="card-info"><div class="card-title">Pharmacodynamics</div><div class="card-meta">75 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch03_en.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">3</div>
+<div class="card-info"><div class="card-title">Pharmacokinetics</div><div class="card-meta">100 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch04_en.html">
+<div class="card-num" style="background:#faf5ff;color:#6b46c1">4</div>
+<div class="card-info"><div class="card-title">Factors Affecting Drug Effects and Rational Use</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+
+<div class="section-title">Part 2: Peripheral Nervous System Pharmacology</div>
+<div class="card"><a href="ch05_en.html">
+<div class="card-num" style="background:#fff5f5;color:#c53030">5</div>
+<div class="card-info"><div class="card-title">Nervous System Pharmacology Overview</div><div class="card-meta">100 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch06_en.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">6</div>
+<div class="card-info"><div class="card-title">Cholinergic Receptor Agonists</div><div class="card-meta">30 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch07_en.html">
+<div class="card-num" style="background:#ebf8ff;color:#2c5282">7</div>
+<div class="card-info"><div class="card-title">Anticholinesterases and Cholinesterase Reactivators</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch08_en.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">8</div>
+<div class="card-info"><div class="card-title">Cholinergic Receptor Blockers</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch09_en.html">
+<div class="card-num" style="background:#ebf4ff;color:#2b6cb0">9</div>
+<div class="card-info"><div class="card-title">Adrenoceptor Agonists</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch10_en.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">10</div>
+<div class="card-info"><div class="card-title">Adrenoceptor Blockers</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch11_en.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">11</div>
+<div class="card-info"><div class="card-title">Local Anesthetics</div><div class="card-meta">30 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch12_en.html">
+<div class="card-num" style="background:#faf5ff;color:#6b46c1">12</div>
+<div class="card-info"><div class="card-title">General Anesthetics</div><div class="card-meta">30 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+
+<div class="section-title">Part 3: Central Nervous System Pharmacology</div>
+<div class="card"><a href="ch13_en.html">
+<div class="card-num" style="background:#fff5f5;color:#c53030">13</div>
+<div class="card-info"><div class="card-title">Sedative-Hypnotics and Wakefulness-Promoting Drugs</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch14_en.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">14</div>
+<div class="card-info"><div class="card-title">Antiepileptic and Anticonvulsant Drugs</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch15_en.html">
+<div class="card-num" style="background:#ebf8ff;color:#2c5282">15</div>
+<div class="card-info"><div class="card-title">Drugs for Neurodegenerative Diseases</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch16_en.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">16</div>
+<div class="card-info"><div class="card-title">Drugs for Mental Disorders</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch17_en.html">
+<div class="card-num" style="background:#ebf4ff;color:#2b6cb0">17</div>
+<div class="card-info"><div class="card-title">Opioid Analgesics, Drug Dependence and Abuse</div><div class="card-meta">75 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch18_en.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">18</div>
+<div class="card-info"><div class="card-title">NSAIDs and Antirheumatic Drugs</div><div class="card-meta">75 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch19_en.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">19</div>
+<div class="card-info"><div class="card-title">Drugs Affecting Autacoids</div><div class="card-meta">75 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch20_en.html">
+<div class="card-num" style="background:#faf5ff;color:#6b46c1">20</div>
+<div class="card-info"><div class="card-title">Immunomodulators</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+
+<div class="section-title">Part 4: Cardiovascular System Pharmacology</div>
+<div class="card"><a href="ch21_en.html">
+<div class="card-num" style="background:#fff5f5;color:#c53030">21</div>
+<div class="card-info"><div class="card-title">Diuretics and Dehydrating Agents</div><div class="card-meta">30 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch22_en.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">22</div>
+<div class="card-info"><div class="card-title">Antiarrhythmic Drugs</div><div class="card-meta">75 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch23_en.html">
+<div class="card-num" style="background:#ebf8ff;color:#2c5282">23</div>
+<div class="card-info"><div class="card-title">Antianginal Drugs</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch24_en.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">24</div>
+<div class="card-info"><div class="card-title">Lipid-Lowering and Antiatherosclerotic Drugs</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch25_en.html">
+<div class="card-num" style="background:#ebf4ff;color:#2b6cb0">25</div>
+<div class="card-info"><div class="card-title">Antihypertensive Drugs</div><div class="card-meta">75 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch26_en.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">26</div>
+<div class="card-info"><div class="card-title">Drugs for Chronic Heart Failure</div><div class="card-meta">75 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch27_en.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">27</div>
+<div class="card-info"><div class="card-title">Drugs Affecting Blood and Hematopoietic Organs</div><div class="card-meta">75 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch28_en.html">
+<div class="card-num" style="background:#faf5ff;color:#6b46c1">28</div>
+<div class="card-info"><div class="card-title">Drugs Acting on the Respiratory System</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch29_en.html">
+<div class="card-num" style="background:#fff5f5;color:#c53030">29</div>
+<div class="card-info"><div class="card-title">Drugs Acting on the Digestive System</div><div class="card-meta">75 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+
+<div class="section-title">Part 5: Endocrine System Pharmacology</div>
+<div class="card"><a href="ch30_en.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">30</div>
+<div class="card-info"><div class="card-title">Uterine Smooth Muscle Stimulants and Relaxants</div><div class="card-meta">30 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch31_en.html">
+<div class="card-num" style="background:#ebf8ff;color:#2c5282">31</div>
+<div class="card-info"><div class="card-title">Adrenocortical Hormone Drugs</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch32_en.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">32</div>
+<div class="card-info"><div class="card-title">Antidiabetic Drugs</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch33_en.html">
+<div class="card-num" style="background:#ebf4ff;color:#2b6cb0">33</div>
+<div class="card-info"><div class="card-title">Thyroid Hormones and Antithyroid Drugs</div><div class="card-meta">30 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch34_en.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">34</div>
+<div class="card-info"><div class="card-title">Sex Hormones and Contraceptives</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch35_en.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">35</div>
+<div class="card-info"><div class="card-title">Anti-Osteoporosis Drugs</div><div class="card-meta">30 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+
+<div class="section-title">Part 7: Chemotherapeutic Drugs</div>
+<div class="card"><a href="ch36_en.html">
+<div class="card-num" style="background:#faf5ff;color:#6b46c1">36</div>
+<div class="card-info"><div class="card-title">General Principles of Antibacterial Drugs</div><div class="card-meta">100 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch37_en.html">
+<div class="card-num" style="background:#fff5f5;color:#c53030">37</div>
+<div class="card-info"><div class="card-title">Beta-Lactam Antibiotics and Other Cell Wall-Active Antibiotics</div><div class="card-meta">100 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch38_en.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">38</div>
+<div class="card-info"><div class="card-title">Macrolides, Lincomycins, and Other Antibiotics</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch39_en.html">
+<div class="card-num" style="background:#ebf8ff;color:#2c5282">39</div>
+<div class="card-info"><div class="card-title">Aminoglycosides and Polymyxins</div><div class="card-meta">75 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch40_en.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">40</div>
+<div class="card-info"><div class="card-title">Tetracyclines and Chloramphenicol</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch41_en.html">
+<div class="card-num" style="background:#ebf4ff;color:#2b6cb0">41</div>
+<div class="card-info"><div class="card-title">Synthetic Antibacterial Drugs</div><div class="card-meta">100 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch42_en.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">42</div>
+<div class="card-info"><div class="card-title">Antituberculosis and Antileprosy Drugs</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch43_en.html">
+<div class="card-num" style="background:#fffbeb;color:#975a16">43</div>
+<div class="card-info"><div class="card-title">Antifungal Drugs</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch44_en.html">
+<div class="card-num" style="background:#faf5ff;color:#6b46c1">44</div>
+<div class="card-info"><div class="card-title">Antiviral Drugs</div><div class="card-meta">100 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch45_en.html">
+<div class="card-num" style="background:#fff5f5;color:#c53030">45</div>
+<div class="card-info"><div class="card-title">Antiparasitic Drugs</div><div class="card-meta">50 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+<div class="card"><a href="ch46_en.html">
+<div class="card-num" style="background:#f0fff4;color:#276749">46</div>
+<div class="card-info"><div class="card-title">Antineoplastic Drugs</div><div class="card-meta">100 questions</div></div>
+<div class="arr">&#8250;</div>
+</a></div>
+
+</div>
+</div>
+<div class="footer">Pharmacology Quiz Bank &copy; 2026 · For Educational Use Only · Expires 2026-09-01</div>
+<script>
+function switchLang(lang){
+  document.getElementById('cnList').classList.toggle('show', lang==='cn');
+  document.getElementById('enList').classList.toggle('show', lang==='en');
+  document.querySelectorAll('.lang-btn').forEach(function(b){
+    b.classList.toggle('active', b.classList.contains(lang));
+  });
+  try{localStorage.setItem('_quiz_lang', lang)}catch(e){}
+}
+(function(){
+  var saved=null;
+  try{saved=localStorage.getItem('_quiz_lang')}catch(e){}
+  if(saved==='en')switchLang('en');
+})();
+</script>
 </body>
 </html>
