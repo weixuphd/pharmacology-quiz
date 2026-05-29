@@ -331,6 +331,37 @@ doc.add_page_break()
 # ============================================================
 doc.add_heading('六、代码维护指南 / Code Maintainer Guide', level=1)
 
+doc.add_heading('6.0 使用 Claude Code AI 助手快速维护（推荐）', level=2)
+doc.add_paragraph(
+    '本项目的全部维护流程、命令、文件结构和翻译规范已保存为 Claude Code 持久记忆。'
+    '在支持 Claude Code 的终端中，只需进入项目目录即可自动加载记忆，'
+    '随后用自然语言发出维护指令，AI 助手会自动执行完整的维护流程。'
+)
+doc.add_paragraph(
+    '启动步骤：\n'
+    '1. 打开终端（Terminal）\n'
+    '2. 进入项目目录：cd /Users/weixu/Downloads/pnas\n'
+    '3. 启动 Claude Code：claude\n'
+    '4. 输入自然语言指令，例如：\n'
+    '   • "帮我把有效期改到 2027-06-30"\n'
+    '   • "帮我更新第 22 章的试题，修改第 15 题的解析"\n'
+    '   • "帮我检查英文版第 8 章有没有翻译问题"\n'
+    '   • "全部重建并推送到 GitHub"\n'
+    '5. AI 助手会从记忆中读取项目结构、命令格式和注意事项，自动完成维护操作'
+)
+doc.add_paragraph(
+    '记忆内容涵盖：\n'
+    '• 项目总览（网址、仓库、有效期、用户身份）\n'
+    '• 全部文件结构与 localStorage 密钥规则\n'
+    '• 修改有效期、更新试题、新增章节、部署的完整流程\n'
+    '• 批量翻译、后处理、构建的全部命令\n'
+    '• 英文翻译质量标准和常见问题修复方案'
+)
+doc.add_paragraph(
+    '注意：必须在 /Users/weixu/Downloads/pnas 目录下启动 claude，'
+    '记忆才会自动加载。在其他目录下启动将无法识别本项目上下文。'
+)
+
 doc.add_heading('6.1 文件结构总览', level=2)
 files = [
     ('build_mobile.py', '核心构建脚本：从CSV生成加密的自包含HTML'),

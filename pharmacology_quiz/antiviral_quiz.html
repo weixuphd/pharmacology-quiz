@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>药理学第44章——抗病毒药题库</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-light: #dbeafe;
+    --success: #16a34a;
+    --success-light: #dcfce7;
+    --danger: #dc2626;
+    --danger-light: #fee2e2;
+    --warning: #f59e0b;
+    --warning-light: #fef3c7;
+    --bg: #f8fafc;
+    --card: #fff;
+    --border: #e2e8f0;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --radius: 10px;
+    --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  .container { max-width: 900px; margin: 0 auto; padding: 16px; }
+
+  /* Header */
+  .header {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow);
+  }
+  .header-inner { max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+  .header h1 { font-size: 1.2rem; font-weight: 700; }
+  .header-stats { display: flex; gap: 16px; font-size: .85rem; color: var(--text-muted); }
+  .header-stats span { white-space: nowrap; }
+  .header-stats strong { color: var(--text); }
+
+  /* Controls */
+  .controls {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+  .controls label { font-size: .85rem; font-weight: 600; color: var(--text-muted); margin-right: 4px; }
+  select, button {
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: .85rem;
+    font-family: inherit;
+    cursor: pointer;
+    background: var(--card);
+    color: var(--text);
+    transition: all .15s;
+  }
+  select:hover, button:hover { border-color: var(--primary); }
+  select:focus, button:focus { outline: 2px solid var(--primary); outline-offset: 2px; }
+  .btn-primary {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+    font-weight: 600;
+  }
+  .btn-primary:hover { opacity: .9; }
+  .btn-outline { border-color: var(--primary); color: var(--primary); background: transparent; }
+  .btn-danger { background: var(--danger); color: #fff; border-color: var(--danger); }
+  .btn-success { background: var(--success); color: #fff; border-color: var(--success); }
+  .flex-spacer { flex: 1; }
+
+  /* Main card */
+  .main-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .q-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .q-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: .8rem;
+    font-weight: 600;
+  }
+  .badge-cat { background: var(--primary-light); color: var(--primary); }
+  .badge-num { background: #f1f5f9; color: var(--text-muted); }
+
+  .q-body { padding: 24px 20px; }
+  .q-question {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    line-height: 1.7;
+  }
+
+  /* Options */
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 16px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all .15s;
+    user-select: none;
+  }
+  .option:hover { border-color: var(--primary); background: #f8faff; }
+  .option.selected { border-color: var(--primary); background: var(--primary-light); }
+  .option.correct { border-color: var(--success); background: var(--success-light); }
+  .option.wrong { border-color: var(--danger); background: var(--danger-light); }
+  .option.correct-reveal { border-color: var(--success); background: var(--success-light); }
+  .option-radio {
+    width: 24px; height: 24px;
+    border: 2px solid #cbd5e1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: .8rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+    color: var(--text-muted);
+  }
+  .option.selected .option-radio { border-color: var(--primary); background: var(--primary); color: #fff; }
+  .option.correct .option-radio { border-color: var(--success); background: var(--success); color: #fff; }
+  .option.wrong .option-radio { border-color: var(--danger); background: var(--danger); color: #fff; }
+  .option.correct-reveal .option-radio { border-color: var(--success); background: var(--success); color: #fff; }
+  .option-text { flex: 1; }
+
+  .answered .option { pointer-events: none; }
+
+  /* Explanation */
+  .explanation {
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 8px;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    font-size: .9rem;
+    line-height: 1.6;
+    display: none;
+  }
+  .explanation.visible { display: block; }
+  .explanation-title { font-weight: 700; margin-bottom: 4px; color: #92400e; }
+
+  /* Navigation */
+  .nav-bar {
+    display: flex;
+    gap: 8px;
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .nav-bar span { font-size: .85rem; color: var(--text-muted); margin: 0 8px; }
+  .nav-dots {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    padding: 12px 20px;
+    border-top: 1px solid var(--border);
+    max-height: 160px;
+    overflow-y: auto;
+  }
+  .nav-dot {
+    width: 28px; height: 28px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: #fff;
+    cursor: pointer;
+    font-size: .7rem;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .1s;
+    flex-shrink: 0;
+    color: var(--text-muted);
+  }
+  .nav-dot:hover { border-color: var(--primary); }
+  .nav-dot.active { border-color: var(--primary); background: var(--primary); color: #fff; font-weight: 700; }
+  .nav-dot.correct-dot { border-color: var(--success); background: var(--success-light); color: var(--success); }
+  .nav-dot.wrong-dot { border-color: var(--danger); background: var(--danger-light); color: var(--danger); }
+
+  /* Stats panel */
+  .stats-panel {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-top: 16px;
+    box-shadow: var(--shadow);
+  }
+  .stats-panel h3 { font-size: .95rem; margin-bottom: 12px; }
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; }
+  .stat-item {
+    text-align: center;
+    padding: 12px;
+    background: var(--bg);
+    border-radius: 8px;
+  }
+  .stat-val { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+  .stat-label { font-size: .75rem; color: var(--text-muted); margin-top: 2px; }
+
+  /* Category stats */
+  .cat-stats { margin-top: 12px; }
+  .cat-stat-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: .83rem;
+  }
+  .cat-stat-name { width: 140px; flex-shrink: 0; }
+  .cat-stat-bar {
+    flex: 1;
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .cat-stat-fill { height: 100%; border-radius: 4px; transition: width .3s; }
+  .cat-stat-fill.correct-fill { background: var(--success); }
+  .cat-stat-num { font-size: .78rem; color: var(--text-muted); width: 55px; text-align: right; }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .header-inner { flex-direction: column; gap: 8px; }
+    .controls { flex-direction: column; align-items: stretch; }
+    .nav-dots { justify-content: center; }
+    .nav-dot { width: 24px; height: 24px; font-size: .65rem; }
+  }
+
+  /* Loading */
+  .loading {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-muted);
+  }
+  .spinner {
+    width: 40px; height: 40px;
+    border: 4px solid var(--border);
+    border-top: 4px solid var(--primary);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+    margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .error-message {
+    background: var(--danger-light);
+    color: var(--danger);
+    padding: 16px;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  /* Upload zone */
+  .upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    margin: 16px 0;
+    transition: all .15s;
+  }
+  .upload-zone:hover { border-color: var(--primary); background: #f8faff; }
+  .upload-zone p { color: var(--text-muted); }
+  #fileInput { display: none; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-inner">
+    <h1>药理学第四十四章——抗病毒药题库</h1>
+    <div class="header-stats">
+      <span>已答: <strong id="answeredCount">0</strong>/100</span>
+      <span>正确: <strong id="correctCount">0</strong></span>
+      <span>正确率: <strong id="accuracy">0%</strong></span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Upload Area -->
+  <div id="uploadArea" class="upload-zone" onclick="document.getElementById('fileInput').click()">
+    <p style="font-size:1.5rem;margin-bottom:8px;">&#128196;</p>
+    <p>点击此处加载 antiviral.csv 题库文件</p>
+    <p style="font-size:.8rem;">或拖放CSV文件到此区域</p>
+    <input type="file" id="fileInput" accept=".csv" onchange="handleFile(event)">
+  </div>
+
+  <!-- Main Quiz (hidden initially) -->
+  <div id="quizArea" style="display:none;">
+
+    <!-- Controls -->
+    <div class="controls">
+      <label>分类:</label>
+      <select id="categoryFilter" onchange="applyFilter()">
+        <option value="all">全部题目</option>
+      </select>
+      <label>模式:</label>
+      <select id="modeSelect" onchange="changeMode()">
+        <option value="sequential">顺序练习</option>
+        <option value="random">随机练习</option>
+        <option value="wrong">错题复习</option>
+        <option value="unanswered">未答题</option>
+      </select>
+      <div class="flex-spacer"></div>
+      <button class="btn-outline" onclick="resetAll()">重置进度</button>
+      <button class="btn-primary" onclick="exportCSV()">导出错题CSV</button>
+    </div>
+
+    <!-- Question Card -->
+    <div class="main-card">
+      <div class="q-header">
+        <span class="q-badge badge-cat" id="qCategory">-</span>
+        <span class="q-badge badge-num" id="qNumber">第1题 / 共100题</span>
+      </div>
+      <div class="q-body" id="qBody">
+        <div class="q-question" id="qText"></div>
+        <div class="options" id="qOptions"></div>
+        <div class="explanation" id="qExplanation">
+          <div class="explanation-title">解析</div>
+          <div id="qExplanationText"></div>
+        </div>
+      </div>
+      <div class="nav-bar">
+        <button onclick="prevQuestion()" id="btnPrev">上一题</button>
+        <button onclick="nextQuestion()" id="btnNext">下一题</button>
+        <span id="navInfo"></span>
+        <div class="flex-spacer"></div>
+        <button class="btn-outline" onclick="revealAnswer()" id="btnReveal">显示答案</button>
+      </div>
+      <div class="nav-dots" id="navDots"></div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="stats-panel" id="statsPanel">
+      <h3>学习统计</h3>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-val" id="statTotal">100</div>
+          <div class="stat-label">总题数</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val" id="statAnswered">0</div>
+          <div class="stat-label">已答</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val" id="statCorrect">0</div>
+          <div class="stat-label">正确</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val" id="statAccuracy">0%</div>
+          <div class="stat-label">正确率</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val" id="statWrongCount">0</div>
+          <div class="stat-label">错题数</div>
+        </div>
+      </div>
+      <div class="cat-stats" id="catStats" style="margin-top:16px;"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== State =====
+let questions = [];
+let filteredQuestions = [];
+let currentIdx = 0;
+let answers = {};        // {id: 'A'|'B'|'C'|'D'|'E'}
+let mode = 'sequential';
+let categoryFilter = 'all';
+
+// ===== CSV Loading =====
+function handleFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) { parseCSV(e.target.result); };
+  reader.readAsText(file, 'utf-8');
+}
+
+// Also allow drag and drop
+document.addEventListener('DOMContentLoaded', () => {
+  const upload = document.getElementById('uploadArea');
+  upload.addEventListener('dragover', e => { e.preventDefault(); upload.style.borderColor = 'var(--primary)'; });
+  upload.addEventListener('dragleave', e => { e.preventDefault(); upload.style.borderColor = 'var(--border)'; });
+  upload.addEventListener('drop', e => {
+    e.preventDefault();
+    upload.style.borderColor = 'var(--border)';
+    const file = e.dataTransfer.files[0];
+    if (file && file.name.endsWith('.csv')) {
+      const reader = new FileReader();
+      reader.onload = function(ev) { parseCSV(ev.target.result); };
+      reader.readAsText(file, 'utf-8');
+    }
+  });
+});
+
+function parseCSV(text) {
+  // Remove BOM
+  if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+
+  const lines = text.split(/\r?\n/).filter(l => l.trim());
+  if (lines.length < 2) {
+    alert('CSV文件格式错误，至少需要标题行和一行数据');
+    return;
+  }
+
+  // Parse header
+  const headers = parseCSVLine(lines[0]);
+  const idxMap = {};
+  const needed = ['question', 'option_a', 'option_b', 'option_c', 'option_d', 'option_e', 'correct', 'explanation'];
+  for (const h of needed) {
+    const i = headers.findIndex(x => x.toLowerCase().replace(/^﻿/, '') === h);
+    if (i === -1) { alert(`CSV缺少必需列: ${h}`); return; }
+    idxMap[h] = i;
+  }
+  const catIdx = headers.findIndex(x => x.toLowerCase() === 'category');
+
+  questions = [];
+  for (let i = 1; i < lines.length; i++) {
+    const cols = parseCSVLine(lines[i]);
+    if (cols.length < Math.max(...Object.values(idxMap))) continue;
+    const q = {
+      id: i,
+      question: (cols[idxMap.question] || '').trim(),
+      options: [
+        (cols[idxMap.option_a] || '').trim(),
+        (cols[idxMap.option_b] || '').trim(),
+        (cols[idxMap.option_c] || '').trim(),
+        (cols[idxMap.option_d] || '').trim(),
+        (cols[idxMap.option_e] || '').trim(),
+      ],
+      correct: (cols[idxMap.correct] || '').trim().toUpperCase(),
+      explanation: (cols[idxMap.explanation] || '').trim(),
+      category: catIdx >= 0 ? (cols[catIdx] || '').trim() : '',
+    };
+    if (q.question && q.correct) questions.push(q);
+  }
+
+  if (questions.length === 0) {
+    alert('未解析到有效题目');
+    return;
+  }
+
+  // Build category filter
+  const cats = [...new Set(questions.map(q => q.category).filter(Boolean))];
+  const sel = document.getElementById('categoryFilter');
+  sel.innerHTML = '<option value="all">全部题目</option>';
+  cats.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c;
+    opt.textContent = c;
+    sel.appendChild(opt);
+  });
+
+  // Initialize
+  filteredQuestions = [...questions];
+  currentIdx = 0;
+  answers = {};
+  mode = 'sequential';
+  categoryFilter = 'all';
+  document.getElementById('modeSelect').value = 'sequential';
+  document.getElementById('categoryFilter').value = 'all';
+
+  document.getElementById('uploadArea').style.display = 'none';
+  document.getElementById('quizArea').style.display = 'block';
+  renderAll();
+}
+
+function parseCSVLine(line) {
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (inQuotes) {
+      if (ch === '"') {
+        if (i + 1 < line.length && line[i + 1] === '"') { current += '"'; i++; }
+        else inQuotes = false;
+      } else current += ch;
+    } else {
+      if (ch === '"') inQuotes = true;
+      else if (ch === ',') { result.push(current); current = ''; }
+      else current += ch;
+    }
+  }
+  result.push(current);
+  return result;
+}
+
+// ===== Navigation =====
+function applyFilter() {
+  categoryFilter = document.getElementById('categoryFilter').value;
+  updateFilteredList();
+}
+
+function changeMode() {
+  mode = document.getElementById('modeSelect').value;
+  updateFilteredList();
+}
+
+function updateFilteredList() {
+  let pool = [...questions];
+  // apply category filter
+  if (categoryFilter !== 'all') {
+    pool = pool.filter(q => q.category === categoryFilter);
+  }
+  // apply mode
+  if (mode === 'wrong') {
+    pool = pool.filter(q => answers[q.id] && answers[q.id] !== q.correct);
+  } else if (mode === 'unanswered') {
+    pool = pool.filter(q => !answers[q.id]);
+  } else if (mode === 'random') {
+    shuffle(pool);
+  }
+  filteredQuestions = pool;
+  if (filteredQuestions.length === 0) {
+    alert(mode === 'wrong' ? '没有错题，太棒了！' : '所有题目都已答完！');
+    mode = 'sequential';
+    document.getElementById('modeSelect').value = 'sequential';
+    updateFilteredList();
+    return;
+  }
+  currentIdx = 0;
+  renderAll();
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+function prevQuestion() {
+  if (currentIdx > 0) { currentIdx--; renderQuestion(); }
+}
+
+function nextQuestion() {
+  if (currentIdx < filteredQuestions.length - 1) { currentIdx++; renderQuestion(); }
+}
+
+function goToQuestion(idx) {
+  currentIdx = idx;
+  renderQuestion();
+}
+
+// ===== Rendering =====
+function renderAll() {
+  renderQuestion();
+  renderNavDots();
+  updateStats();
+  updateHeader();
+}
+
+function renderQuestion() {
+  if (filteredQuestions.length === 0) return;
+  const q = filteredQuestions[currentIdx];
+  const globalIdx = questions.indexOf(q) + 1;
+
+  document.getElementById('qCategory').textContent = q.category || '综合';
+  document.getElementById('qNumber').textContent = `第${currentIdx + 1}题 / 共${filteredQuestions.length}题 (原#${globalIdx})`;
+  document.getElementById('qText').textContent = q.question;
+
+  const labels = ['A', 'B', 'C', 'D', 'E'];
+  const optionsDiv = document.getElementById('qOptions');
+  optionsDiv.innerHTML = '';
+  const isAnswered = answers[q.id] !== undefined;
+
+  q.options.forEach((opt, i) => {
+    const div = document.createElement('div');
+    const label = labels[i];
+    let cls = 'option';
+
+    if (isAnswered) {
+      if (label === q.correct) cls += ' correct-reveal';
+      else if (label === answers[q.id] && answers[q.id] !== q.correct) cls += ' wrong';
+    } else if (answers[q.id] === label) {
+      cls += ' selected';
+    }
+
+    div.className = cls;
+    div.innerHTML = `<span class="option-radio">${label}</span><span class="option-text">${opt}</span>`;
+    if (!isAnswered) div.onclick = () => selectAnswer(q, label);
+    optionsDiv.appendChild(div);
+  });
+
+  if (isAnswered) optionsDiv.parentElement.classList.add('answered');
+  else optionsDiv.parentElement.classList.remove('answered');
+
+  // Explanation
+  const explDiv = document.getElementById('qExplanation');
+  if (isAnswered) {
+    explDiv.classList.add('visible');
+    document.getElementById('qExplanationText').textContent = q.explanation;
+  } else {
+    explDiv.classList.remove('visible');
+  }
+
+  // Buttons
+  document.getElementById('btnPrev').disabled = currentIdx === 0;
+  document.getElementById('btnNext').disabled = currentIdx === filteredQuestions.length - 1;
+  document.getElementById('btnReveal').style.display = isAnswered ? 'none' : 'inline-block';
+  document.getElementById('navInfo').textContent = filteredQuestions.length > 0 ? `${currentIdx + 1} / ${filteredQuestions.length}` : '';
+}
+
+function selectAnswer(q, label) {
+  if (answers[q.id] !== undefined) return; // Already answered
+  answers[q.id] = label;
+  renderAll();
+}
+
+function revealAnswer() {
+  if (filteredQuestions.length === 0) return;
+  const q = filteredQuestions[currentIdx];
+  answers[q.id] = answers[q.id] || '__SKIPPED__';
+  renderAll();
+}
+
+function renderNavDots() {
+  const dotsDiv = document.getElementById('navDots');
+  dotsDiv.innerHTML = '';
+  filteredQuestions.forEach((q, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'nav-dot';
+    btn.textContent = i + 1;
+    if (i === currentIdx) btn.classList.add('active');
+    if (answers[q.id] === q.correct) btn.classList.add('correct-dot');
+    else if (answers[q.id] && answers[q.id] !== '__SKIPPED__') btn.classList.add('wrong-dot');
+    btn.onclick = () => goToQuestion(i);
+    btn.title = `第${i + 1}题`;
+    dotsDiv.appendChild(btn);
+  });
+}
+
+function updateHeader() {
+  const total = questions.length;
+  const answered = Object.keys(answers).filter(id => answers[id] !== '__SKIPPED__').length;
+  const correct = Object.entries(answers).filter(([id, a]) => a === questions.find(q => q.id === parseInt(id))?.correct).length;
+  const acc = answered > 0 ? Math.round(correct / answered * 100) : 0;
+  document.getElementById('answeredCount').textContent = answered;
+  document.getElementById('correctCount').textContent = correct;
+  document.getElementById('accuracy').textContent = acc + '%';
+}
+
+function updateStats() {
+  const total = questions.length;
+  const answered = Object.keys(answers).filter(id => answers[id] !== '__SKIPPED__').length;
+  const correct = Object.entries(answers).filter(([id, a]) => a === questions.find(q => q.id === parseInt(id))?.correct).length;
+  const acc = answered > 0 ? Math.round(correct / answered * 100) : 0;
+  const wrongCount = Object.entries(answers).filter(([id, a]) => a !== '__SKIPPED__' && a !== questions.find(q => q.id === parseInt(id))?.correct).length;
+
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statAnswered').textContent = answered;
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statAccuracy').textContent = acc + '%';
+  document.getElementById('statWrongCount').textContent = wrongCount;
+
+  document.getElementById('answeredCount').textContent = answered;
+  document.getElementById('correctCount').textContent = correct;
+  document.getElementById('accuracy').textContent = acc + '%';
+
+  // Category stats
+  const catStats = document.getElementById('catStats');
+  const cats = {};
+  questions.forEach(q => {
+    const c = q.category || '综合';
+    if (!cats[c]) cats[c] = { total: 0, answered: 0, correct: 0 };
+    cats[c].total++;
+    if (answers[q.id] && answers[q.id] !== '__SKIPPED__') {
+      cats[c].answered++;
+      if (answers[q.id] === q.correct) cats[c].correct++;
+    }
+  });
+
+  catStats.innerHTML = Object.entries(cats).map(([cat, s]) => {
+    const pct = s.answered > 0 ? Math.round(s.correct / s.answered * 100) : 0;
+    const barPct = s.total > 0 ? Math.round(s.answered / s.total * 100) : 0;
+    return `<div class="cat-stat-row">
+      <span class="cat-stat-name">${cat}</span>
+      <div class="cat-stat-bar">
+        <div class="cat-stat-fill correct-fill" style="width:${pct}%;background:var(--success);"></div>
+      </div>
+      <span class="cat-stat-num">${s.correct}/${s.answered}/${s.total}</span>
+    </div>`;
+  }).join('');
+}
+
+// ===== Actions =====
+function resetAll() {
+  if (confirm('确定要重置所有答题进度吗？此操作不可恢复。')) {
+    answers = {};
+    mode = 'sequential';
+    categoryFilter = 'all';
+    document.getElementById('modeSelect').value = 'sequential';
+    document.getElementById('categoryFilter').value = 'all';
+    updateFilteredList();
+    renderAll();
+  }
+}
+
+function exportCSV() {
+  const wrongQs = questions.filter(q => answers[q.id] && answers[q.id] !== '__SKIPPED__' && answers[q.id] !== q.correct);
+  if (wrongQs.length === 0) { alert('没有错题可导出！'); return; }
+
+  let csv = '﻿id,question,option_a,option_b,option_c,option_d,option_e,correct,your_answer,explanation,category\n';
+  wrongQs.forEach(q => {
+    const row = [q.id, q.question, ...q.options, q.correct, answers[q.id] || '', q.explanation, q.category];
+    csv += row.map(c => '"' + (c + '').replace(/"/g, '""') + '"').join(',') + '\n';
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'antiviral_wrong_answers.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+  if (filteredQuestions.length === 0) return;
+  const q = filteredQuestions[currentIdx];
+  const isAnswered = answers[q.id] !== undefined;
+
+  if (!isAnswered) {
+    const key = e.key.toUpperCase();
+    if (['A', 'B', 'C', 'D', 'E', '1', '2', '3', '4', '5'].includes(key)) {
+      const map = { '1': 'A', '2': 'B', '3': 'C', '4': 'D', '5': 'E' };
+      const label = map[key] || key;
+      selectAnswer(q, label);
+    }
+  }
+
+  if (e.key === 'ArrowLeft') prevQuestion();
+  if (e.key === 'ArrowRight') nextQuestion();
+  if (e.key === ' ' || e.key === 'Spacebar') {
+    e.preventDefault();
+    if (isAnswered) revealAnswer();
+  }
+});
+</script>
+</body>
+</html>
