@@ -233,6 +233,15 @@ def process_csv(in_path, out_path):
     # Also fix option fields for drug names
 
     for row in rows:
+        # Force-standardize True/False question options
+        if row.get("type", "").strip() == "True/False":
+            row["option_a"] = "True"
+            row["option_b"] = "False"
+            # Clear any other option fields that may have leaked
+            for k in ["option_c", "option_d", "option_e", "option_f",
+                       "option_g", "option_h", "option_i", "option_j"]:
+                row[k] = ""
+
         for key in text_fields:
             val = row.get(key, "")
             if not val.strip():

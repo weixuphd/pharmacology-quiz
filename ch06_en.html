@@ -188,14 +188,14 @@ select,button{padding:7px 10px;border:1px solid var(--b);border-radius:8px;font-
 
 <script>
 // ===== EXPIRY CONFIG =====
-var __EXP={date:"2026-09-01",sig:"na",maxDays:90,build:"202605291430"};
+var __EXP={date:"2026-09-01",sig:"na",maxDays:90,build:"202605291448"};
 
 (function(){
   var raw=__EXP.date+":"+__EXP.maxDays+":"+__EXP.build,h=0;
   for(var i=0;i<raw.length;i++)h=((h*31)+raw.charCodeAt(i))>>>0;
   h=((h>>>16)^(h&0xFFFF)).toString(16);
   if(h.length<4)h="0".repeat(4-h.length)+h;
-  if(h!=="e0d4"){
+  if(h!=="e0fd"){
     document.body.innerHTML='<div style="padding:40px;text-align:center;color:#dc2626;font-size:1.1rem">Application verification failed. Please obtain a new copy from your instructor.</div>';
     throw new Error("integrity");
   }
