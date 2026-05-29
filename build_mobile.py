@@ -8,8 +8,8 @@ Supports three question types:
   - 简答题(多选) (Multi-Select, 8-10 options, multiple correct answers)
 
 Usage:
-    python3 build_mobile.py --expire 2026-09-01 --max-days 90
-    python3 build_mobile.py --expire 2026-09-01 --max-days 90 --mode simple
+    python3 build_mobile.py --expire 2026-12-31 --max-days 90
+    python3 build_mobile.py --expire 2026-12-31 --max-days 90 --mode simple
 """
 
 import argparse

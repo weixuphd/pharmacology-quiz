@@ -142,7 +142,7 @@ body{{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
 <div class="container">
 {cards_html}
 </div>
-<div class="footer">药理学题库 &copy; 2026 · 仅供教学使用 · 有效期至2026-07-01</div>
+<div class="footer">药理学题库 &copy; 2026 · 仅供教学使用 · 有效期至2026-12-31</div>
 </body>
 </html>'''
 
