@@ -221,6 +221,24 @@ def fix_option_casing(text):
     pass  # The retranslate_chapter.py already handles True/False mapping
 
 
+def fix_microgram(text):
+    """Replace 'ug' (microgram) with 'μg' using Greek mu, but NOT in words like 'drug'."""
+    # Pattern 1: number + optional space + ug at word boundary
+    # e.g., "50 ug", "500ug", "5-10 ug", "0.5-2 ug"
+    text = re.sub(r'(\d[\d.]*)\s*ug\b', r'\1 μg', text)
+    # Pattern 2: range end (after dash) + ug
+    # e.g., "5-10 ug" where "10 ug" is already caught above
+    # Pattern 3: ug/unit (e.g., "ug/kg", "ug/ml", "ug/d")
+    text = re.sub(r'\bug/(?=[kgmLhd])', 'μg/', text)
+    # Pattern 4: ug followed by middle dot (e.g., "ug·kg")
+    text = re.sub(r'\bug·', 'μg·', text)
+    # Pattern 5: "in ug" or "of ug" (standalone unit reference)
+    text = re.sub(r'\b(in|of|about|approximately|around)\s+ug\b', r'\1 μg', text)
+    # Pattern 6: ug at end of sentence or before comma
+    text = re.sub(r'\bug(\s*[,.;)])', r'μg\1', text)
+    return text
+
+
 def process_csv(in_path, out_path):
     rows = []
     with open(in_path, "r", encoding="utf-8") as f:
@@ -250,6 +268,7 @@ def process_csv(in_path, out_path):
             val = fix_full_english_name(val)
             val = fix_drug_capitalization(val)
             val = fix_my_country(val)
+            val = fix_microgram(val)
             row[key] = val
 
         # Fix option text fields too
@@ -259,6 +278,7 @@ def process_csv(in_path, out_path):
                 if val.strip():
                     val = fix_drug_capitalization(val)
                     val = fix_my_country(val)
+                    val = fix_microgram(val)
                     row[key] = val
 
     with open(out_path, "w", encoding="utf-8", newline="") as f:
