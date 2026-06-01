@@ -191,14 +191,14 @@ select,button{padding:7px 10px;border:1px solid var(--b);border-radius:8px;font-
 
 <script>
 // ===== EXPIRY CONFIG =====
-var __EXP={date:"2026-12-31",sig:"na",maxDays:90,build:"202606011634"};
+var __EXP={date:"2026-12-31",sig:"na",maxDays:90,build:"202606011645"};
 
 (function(){
   var raw=__EXP.date+":"+__EXP.maxDays+":"+__EXP.build,h=0;
   for(var i=0;i<raw.length;i++)h=((h*31)+raw.charCodeAt(i))>>>0;
   h=((h>>>16)^(h&0xFFFF)).toString(16);
   if(h.length<4)h="0".repeat(4-h.length)+h;
-  if(h!=="0165"){
+  if(h!=="0145"){
     document.body.innerHTML='<div style="padding:40px;text-align:center;color:#dc2626;font-size:1.1rem">应用校验失败。请从老师处重新获取。</div>';
     throw new Error("integrity");
   }
@@ -253,7 +253,7 @@ function _decode(){
 }
 
 // ===== STATE =====
-var QS=[],currentIdx=0,answers={},correctMap={},explanations={},multiSel={},bookmarks=[],LS="_ch16_"+"qz";
+var QS=[],currentIdx=0,answers={},correctMap={},explanations={},multiSel={},bookmarks=[],filtered=[],filterIdx=0,activeFilter=null,LS="_ch16_"+"qz";
 function _s(){try{localStorage.setItem(LS,JSON.stringify({a:answers,c:correctMap,e:explanations,bm:bookmarks}))}catch(e){}}
 function _l(){try{var d=JSON.parse(localStorage.getItem(LS)||"{}");answers=d.a||{};correctMap=d.c||{};explanations=d.e||{};bookmarks=d.bm||[];}catch(e){}}
 
@@ -335,10 +335,10 @@ function render(){
   var bmBtn=document.getElementById("bmBtn");var isBm=bookmarks.indexOf(q.id)>=0;
   bmBtn.textContent=isBm?"★":"☆";bmBtn.className=isBm?"bm-btn on":"bm-btn";
 
-  document.getElementById("btnPrev").disabled=idx===0;
-  document.getElementById("btnNext").disabled=idx>=QS.length-1;
+  document.getElementById("btnPrev").disabled=activeFilter?filterIdx===0:idx===0;
+  document.getElementById("btnNext").disabled=activeFilter?filterIdx>=filtered.length-1:idx>=QS.length-1;
   document.getElementById("btnReveal").style.display=answered?"none":"";
-  document.getElementById("navInfo").textContent=(idx+1)+"/"+QS.length;
+  document.getElementById("navInfo").textContent=activeFilter?(filterIdx+1)+"/"+filtered.length:(idx+1)+"/"+QS.length;
 
   drawDots();updateStats();
 }
@@ -385,8 +385,16 @@ function toggleBookmark(){
   _s();render();
 }
 
-function prevQ(){if(currentIdx>0){currentIdx--;render()}}
-function nextQ(){if(currentIdx<QS.length-1){currentIdx++;render()}}
+function prevQ(){
+  if(activeFilter){if(filterIdx>0){filterIdx--;currentIdx=filtered[filterIdx]}else return}
+  else{if(currentIdx>0)currentIdx--}
+  render();
+}
+function nextQ(){
+  if(activeFilter){if(filterIdx<filtered.length-1){filterIdx++;currentIdx=filtered[filterIdx]}else return}
+  else{if(currentIdx<QS.length-1)currentIdx++}
+  render();
+}
 
 function drawDots(){
   var html="";
@@ -399,7 +407,7 @@ function drawDots(){
   document.getElementById("dotNav").innerHTML=html;
 }
 
-function jump(i){currentIdx=i;render()}
+function jump(i){if(activeFilter){var fi=filtered.indexOf(i);if(fi>=0){filterIdx=fi;currentIdx=i}}else{currentIdx=i};render()}
 
 function updateStats(){
   var an=0,cn=0;
@@ -417,26 +425,31 @@ function applyFilter(){
   var mode=document.getElementById("modeSel").value,cat=document.getElementById("catSel").value;
   var pool=QS.slice();
   if(cat!=="all")pool=pool.filter(function(q){return q.c===cat});
-  if(mode==="wrong"){
-    var w=pool.filter(function(q){return answers[q.id]&&answers[q.id]!=="__SKIP__"&&!_isCorrect(q.id)});
-    if(w.length===0){_toast("暂无错题！","o");document.getElementById("modeSel").value="all";return}
-    currentIdx=QS.indexOf(w[0]);
-  }else if(mode==="rnd"){currentIdx=QS.indexOf(pool[Math.floor(Math.random()*pool.length)])}
-  else if(mode==="unans"){
-    var u=pool.filter(function(q){return!answers[q.id]});
-    if(u.length===0){_toast("全部答完！","o");document.getElementById("modeSel").value="all";return}
-    currentIdx=QS.indexOf(u[0]);
-  }else if(mode==="bm"){
-    var bm=pool.filter(function(q){return bookmarks.indexOf(q.id)>=0});
-    if(bm.length===0){_toast("暂无收藏题目！","o");document.getElementById("modeSel").value="all";return}
-    currentIdx=QS.indexOf(bm[0]);
+
+  if(mode==="all"||mode==="rnd"){
+    filtered=[];filterIdx=0;activeFilter=null;
+    if(mode==="rnd")currentIdx=QS.indexOf(pool[Math.floor(Math.random()*pool.length)]);
+    else currentIdx=0;
+  }else{
+    var sub=[];
+    if(mode==="wrong")sub=pool.filter(function(q){return answers[q.id]&&answers[q.id]!=="__SKIP__"&&!_isCorrect(q.id)});
+    else if(mode==="unans")sub=pool.filter(function(q){return!answers[q.id]});
+    else if(mode==="bm")sub=pool.filter(function(q){return bookmarks.indexOf(q.id)>=0});
+
+    if(sub.length===0){
+      var msgs={wrong:"暂无错题！",unans:"全部答完！",bm:"暂无收藏题目！"};
+      _toast(msgs[mode],"o");document.getElementById("modeSel").value="all";
+      filtered=[];filterIdx=0;activeFilter=null;render();return;
+    }
+    filtered=sub.map(function(q){return QS.indexOf(q)});
+    activeFilter=mode;filterIdx=0;currentIdx=filtered[0];
   }
   render();
 }
 
 function resetAll(){
   if(!confirm("确定重置所有答题进度？"))return;
-  answers={};correctMap={};explanations={};multiSel={};bookmarks=[];_s();currentIdx=0;
+  answers={};correctMap={};explanations={};multiSel={};bookmarks=[];filtered=[];filterIdx=0;activeFilter=null;_s();currentIdx=0;
   document.getElementById("modeSel").value="all";render();
 }
 
