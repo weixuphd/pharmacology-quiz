@@ -179,6 +179,8 @@ select,button{padding:7px 10px;border:1px solid var(--b);border-radius:8px;font-
 .badge-c{background:var(--pl);color:var(--p)}
 .badge-t{background:#fef3c7;color:#b45309}
 .badge-n{background:#f1f5f9;color:var(--tm)}
+.bm-btn{background:none;border:none;font-size:1.25rem;cursor:pointer;padding:0 4px;line-height:1;color:#94a3b8;transition:color .15s;flex-shrink:0}
+.bm-btn.on{color:#e6a817}
 
 .card-body{padding:16px 12px}
 .q-text{font-size:.92rem;font-weight:600;margin-bottom:14px;line-height:1.65}
@@ -262,7 +264,7 @@ select,button{padding:7px 10px;border:1px solid var(--b);border-radius:8px;font-
     <select id="catSel" onchange="applyFilter()"><option value="all">全部</option></select>
     <select id="modeSel" onchange="applyFilter()">
       <option value="all">顺序</option><option value="rnd">随机</option>
-      <option value="wrong">错题</option><option value="unans">未答</option>
+      <option value="wrong">错题</option><option value="unans">未答</option><option value="bm">收藏</option>
     </select>
     <div class="flex1"></div>
     <button class="btn-o" onclick="resetAll()">重置</button>
@@ -272,6 +274,7 @@ select,button{padding:7px 10px;border:1px solid var(--b);border-radius:8px;font-
     <div class="card-hd">
       <span class="badge badge-t" id="qType">-</span>
       <span class="badge badge-c" id="qCat">-</span>
+      <button class="bm-btn" id="bmBtn" onclick="toggleBookmark()" title="收藏">☆</button>
       <span class="badge badge-n" id="qNum">-</span>
     </div>
     <div class="card-body" id="qBody">
@@ -358,9 +361,9 @@ var __KEY="EXPIRY_DATE";
 DECODE_FUNCTION
 
 // ===== STATE =====
-var QS=[],currentIdx=0,answers={},correctMap={},explanations={},multiSel={},LS="LS_PREFIX"+"qz";
-function _s(){try{localStorage.setItem(LS,JSON.stringify({a:answers,c:correctMap,e:explanations}))}catch(e){}}
-function _l(){try{var d=JSON.parse(localStorage.getItem(LS)||"{}");answers=d.a||{};correctMap=d.c||{};explanations=d.e||{};}catch(e){}}
+var QS=[],currentIdx=0,answers={},correctMap={},explanations={},multiSel={},bookmarks=[],LS="LS_PREFIX"+"qz";
+function _s(){try{localStorage.setItem(LS,JSON.stringify({a:answers,c:correctMap,e:explanations,bm:bookmarks}))}catch(e){}}
+function _l(){try{var d=JSON.parse(localStorage.getItem(LS)||"{}");answers=d.a||{};correctMap=d.c||{};explanations=d.e||{};bookmarks=d.bm||[];}catch(e){}}
 
 // Check if answer is correct (handles multi-select order-insensitive comparison)
 function _isCorrect(qid){var a=answers[qid];if(!a||a==="__SKIP__")return false;var ca=correctMap[qid];return _sortStr(a)===_sortStr(ca);}
@@ -426,6 +429,9 @@ function render(){
     document.getElementById("qExplText").textContent=explanations[q.id];
   }else{explDiv.classList.remove("on")}
 
+  var bmBtn=document.getElementById("bmBtn");var isBm=bookmarks.indexOf(q.id)>=0;
+  bmBtn.textContent=isBm?"★":"☆";bmBtn.className=isBm?"bm-btn on":"bm-btn";
+
   document.getElementById("btnPrev").disabled=idx===0;
   document.getElementById("btnNext").disabled=idx>=QS.length-1;
   document.getElementById("btnReveal").style.display=answered?"none":"";
@@ -466,6 +472,13 @@ function reveal(){
   var q=QS[currentIdx];if(!q)return;
   correctMap[q.id]=q.a;explanations[q.id]=q.e;
   if(answers[q.id]===undefined)answers[q.id]="__SKIP__";
+  _s();render();
+}
+
+function toggleBookmark(){
+  var q=QS[currentIdx];if(!q)return;
+  var idx=bookmarks.indexOf(q.id);
+  if(idx>=0)bookmarks.splice(idx,1);else bookmarks.push(q.id);
   _s();render();
 }
 
@@ -510,13 +523,17 @@ function applyFilter(){
     var u=pool.filter(function(q){return!answers[q.id]});
     if(u.length===0){_toast("全部答完！","o");document.getElementById("modeSel").value="all";return}
     currentIdx=QS.indexOf(u[0]);
+  }else if(mode==="bm"){
+    var bm=pool.filter(function(q){return bookmarks.indexOf(q.id)>=0});
+    if(bm.length===0){_toast("暂无收藏题目！","o");document.getElementById("modeSel").value="all";return}
+    currentIdx=QS.indexOf(bm[0]);
   }
   render();
 }
 
 function resetAll(){
   if(!confirm("确定重置所有答题进度？"))return;
-  answers={};correctMap={};explanations={};multiSel={};_s();currentIdx=0;
+  answers={};correctMap={};explanations={};multiSel={};bookmarks=[];_s();currentIdx=0;
   document.getElementById("modeSel").value="all";render();
 }
 
@@ -651,6 +668,7 @@ def build(expire_date: str, max_days: int = 0, output: str = DEFAULT_OUTPUT, mod
         html = html.replace('请至少选择一个选项！', 'Please select at least one option!')
         html = html.replace('暂无错题！', 'No wrong answers!')
         html = html.replace('全部答完！', 'All questions answered!')
+        html = html.replace('暂无收藏题目！', 'No bookmarked questions!')
         html = html.replace('确定重置所有答题进度？', 'Reset all progress?')
 
         # ---- Expiry messages (complete) ----
@@ -696,17 +714,20 @@ def build(expire_date: str, max_days: int = 0, output: str = DEFAULT_OUTPUT, mod
         html = html.replace('value="rnd">随机</option>', 'value="rnd">Random</option>')
         html = html.replace('value="wrong">错题</option>', 'value="wrong">Wrong</option>')
         html = html.replace('value="unans">未答</option>', 'value="unans">Unanswered</option>')
+        html = html.replace('value="bm">收藏</option>', 'value="bm">Bookmarks</option>')
 
         # ---- Single-char labels (AFTER multi-char) ----
         html = html.replace("已答", "Answered")
         html = html.replace("正确", "Correct")
         html = html.replace("解析", "Explanation")
+        html = html.replace("收藏", "Bookmarks")
         html = html.replace("重置", "Reset")
         html = html.replace("全部", "All")
         html = html.replace("顺序", "Sequential")
         html = html.replace("错题", "Wrong")
         html = html.replace("随机", "Random")
         html = html.replace("错误", "False")
+        html = html.replace('title="收藏"', 'title="Bookmark"')
         html = html.replace("未答", "Unanswered")
 
     elif title:
