@@ -529,8 +529,16 @@ function applyFilter(){
 
   if(mode==="all"||mode==="rnd"){
     filtered=[];filterIdx=0;activeFilter=null;
-    if(mode==="rnd")currentIdx=QS.indexOf(pool[Math.floor(Math.random()*pool.length)]);
-    else currentIdx=0;
+    if(cat!=="all"){
+      // When category filter is active, use filtered pool for nav
+      filtered=pool.map(function(q){return QS.indexOf(q)});
+      activeFilter="cat";
+      filterIdx=0;
+      currentIdx=filtered[0]||0;
+    }else{
+      if(mode==="rnd")currentIdx=pool.length>0?QS.indexOf(pool[Math.floor(Math.random()*pool.length)]):0;
+      else currentIdx=pool.length>0?QS.indexOf(pool[0]):0;
+    }
   }else{
     var sub=[];
     if(mode==="wrong")sub=pool.filter(function(q){return answers[q.id]&&answers[q.id]!=="__SKIP__"&&!_isCorrect(q.id)});
@@ -550,7 +558,7 @@ function applyFilter(){
 
 function resetAll(){
   if(!confirm("确定重置所有答题进度？"))return;
-  answers={};correctMap={};explanations={};multiSel={};bookmarks=[];filtered=[];filterIdx=0;activeFilter=null;_s();currentIdx=0;
+  answers={};correctMap={};explanations={};multiSel={};filtered=[];filterIdx=0;activeFilter=null;_s();currentIdx=0;
   document.getElementById("modeSel").value="all";render();
 }
 
