@@ -2,9 +2,11 @@
 """
 Build a WeChat-compatible mobile quiz app for the antiviral drug question bank v2.
 
-Supports three question types:
+Supports five question types:
   - 是非题 (True/False, 2 options)
   - 单选题 (Single Choice, 5 options)
+  - 名词解释 (Terminology Explanation, free-text answer)
+  - 简答题 (Short Answer, free-text answer)
   - 简答题(多选) (Multi-Select, 8-10 options, multiple correct answers)
 
 Usage:
@@ -374,7 +376,7 @@ DECODE_CALL
 function render(){
   if(!QS.length)return;
   var q=QS[currentIdx],idx=currentIdx;
-  var typeNames={"是非题":"是非题 (True/False)","单选题":"单选题","简答题(多选)":"简答题 (多选)"};
+  var typeNames={"是非题":"是非题 (True/False)","单选题":"单选题","名词解释":"名词解释","简答题":"简答题","简答题(多选)":"简答题 (多选)"};
   document.getElementById("qType").textContent=q.t||"单选题";
   document.getElementById("qCat").textContent=q.c||"综合";
   document.getElementById("qNum").textContent=(idx+1)+"/"+QS.length;
@@ -383,6 +385,8 @@ function render(){
   // Hint text
   var hint="";
   if(q.t==="是非题")hint="判断正误，选择「正确」或「错误」。";
+  else if(q.t==="名词解释")hint="请解释以下药理学名词的含义。";
+  else if(q.t==="简答题")hint="请简要回答以下问题。点击「显示答案」查看答案。";
   else if(q.t==="简答题(多选)")hint="本题有多个正确答案，请选择所有你认为正确的选项后点击「确认提交」。";
   document.getElementById("qHint").textContent=hint;
 
@@ -699,10 +703,14 @@ def build(expire_date: str, max_days: int = 0, output: str = DEFAULT_OUTPUT, mod
         html = html.replace('"是非题":"是非题 (True/False)"', '"True/False":"True/False"')
         html = html.replace('"单选题":"单选题"', '"Single Choice":"Single Choice"')
         html = html.replace('"简答题(多选)":"简答题 (多选)"', '"Multiple Choice":"Multiple Choice"')
+        html = html.replace('"简答题":"简答题"', '"Short Answer":"Short Answer"')
+        html = html.replace('"名词解释":"名词解释"', '"Terminology":"Terminology"')
 
         # ---- JS type comparisons (q.t checks) ----
         html = html.replace('q.t==="是非题"', 'q.t==="True/False"')
         html = html.replace('q.t==="简答题(多选)"', 'q.t==="Multiple Choice"')
+        html = html.replace('q.t==="简答题"', 'q.t==="Short Answer"')
+        html = html.replace('q.t==="名词解释"', 'q.t==="Terminology"')
 
         # ---- Category dropdown: "全部 (N题)" -> "All (N questions)" (before 全部 replacement) ----
         import re

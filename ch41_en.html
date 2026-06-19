@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Ch41">
+<meta name="apple-mobile-web-app-title" content="Ch41 · Quiz Bank">
 <meta name="wechat-enable-text-zoom" content="false">
-<meta itemprop="name" content="Ch41">
-<meta itemprop="description" content="Ch41 · Ch41">
+<meta itemprop="name" content="Ch41 · Quiz Bank">
+<meta itemprop="description" content="Ch41 · Quiz Bank · Ch41 · Quiz Bank">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#2563eb">
-<title>Ch41</title>
+<title>Ch41 · Quiz Bank</title>
 <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjogIlx1NjI5N1x1NzVjNVx1NmJkMlx1ODM2Zlx1OTg5OFx1NWU5MyIsICJzaG9ydF9uYW1lIjogIlx1NjI5N1x1NzVjNVx1NmJkMlx1ODM2ZiIsICJzdGFydF91cmwiOiAiLiIsICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiLCAiYmFja2dyb3VuZF9jb2xvciI6ICIjZjFmNWY5IiwgInRoZW1lX2NvbG9yIjogIiMyNTYzZWIifQ==">
 <link rel="apple-touch-icon" href="data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIwIiBmaWxsPSIjMjU2M2ViIi8+PHRleHQgeD0iNTAiIHk9IjY4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjUyIj7wn5KKPC90ZXh0Pjwvc3ZnPg==">
 <style>
@@ -120,8 +120,8 @@ select,button{padding:7px 10px;border:1px solid var(--b);border-radius:8px;font-
 
 <div class="splash" id="splash">
   <div class="splash-icon">💊</div>
-  <div class="splash-title">Ch41 · Quiz Bank</div>
-  <div class="splash-sub">Ch41</div>
+  <div class="splash-title">Ch41 · Quiz Bank · Quiz Bank</div>
+  <div class="splash-sub">Ch41 · Quiz Bank</div>
   <div class="splash-loader"><div class="splash-loader-fill"></div></div>
 </div>
 
@@ -134,7 +134,7 @@ select,button{padding:7px 10px;border:1px solid var(--b);border-radius:8px;font-
 <div class="container" id="app" style="display:none;padding-bottom:80px">
 
   <div class="topbar">
-    <h1>Ch41</h1>
+    <h1>Ch41 · Quiz Bank</h1>
     <div class="top-stats">
       <span>Answered<strong id="hAns">0</strong>/<span id="hTot">100</span></span>
       <span>Correct<strong id="hCor">0</strong></span>
@@ -191,26 +191,26 @@ select,button{padding:7px 10px;border:1px solid var(--b);border-radius:8px;font-
 
 <script>
 // ===== EXPIRY CONFIG =====
-var __EXP={date:"2026-12-31",sig:"na",maxDays:90,build:"202606011645"};
+var __EXP={date:"2026-12-31",sig:"na",maxDays:180,build:"202606192116"};
 
 (function(){
   var raw=__EXP.date+":"+__EXP.maxDays+":"+__EXP.build,h=0;
   for(var i=0;i<raw.length;i++)h=((h*31)+raw.charCodeAt(i))>>>0;
   h=((h>>>16)^(h&0xFFFF)).toString(16);
   if(h.length<4)h="0".repeat(4-h.length)+h;
-  if(h!=="0145"){
+  if(h!=="30e1"){
     document.body.innerHTML='<div style="padding:40px;text-align:center;color:#dc2626;font-size:1.1rem">Application verification failed. Please obtain a new copy from your instructor.</div>';
     throw new Error("integrity");
   }
 
   var expireDate=new Date(__EXP.date+"T23:59:59");
   var now=new Date();
-  var firstUse=localStorage.getItem("_en_ch41_"+"fu");
-  var lastUse=localStorage.getItem("_en_ch41_"+"lu");
+  var firstUse=localStorage.getItem("_ch41_"+"fu");
+  var lastUse=localStorage.getItem("_ch41_"+"lu");
 
   if(!firstUse){
     firstUse=now.toISOString();
-    try{localStorage.setItem("_en_ch41_"+"fu",firstUse)}catch(e){}
+    try{localStorage.setItem("_ch41_"+"fu",firstUse)}catch(e){}
   }else{
     var fu=new Date(firstUse);
     if(now<fu){
@@ -228,7 +228,7 @@ var __EXP={date:"2026-12-31",sig:"na",maxDays:90,build:"202606011645"};
       }
     }
   }
-  try{localStorage.setItem("_en_ch41_"+"lu",now.toISOString())}catch(e){}
+  try{localStorage.setItem("_ch41_"+"lu",now.toISOString())}catch(e){}
 
   if(now>expireDate){
     document.getElementById("expiredView").style.display="flex";
@@ -253,7 +253,7 @@ function _decode(){
 }
 
 // ===== STATE =====
-var QS=[],currentIdx=0,answers={},correctMap={},explanations={},multiSel={},bookmarks=[],filtered=[],filterIdx=0,activeFilter=null,LS="_en_ch41_"+"qz";
+var QS=[],currentIdx=0,answers={},correctMap={},explanations={},multiSel={},bookmarks=[],filtered=[],filterIdx=0,activeFilter=null,LS="_ch41_"+"qz";
 function _s(){try{localStorage.setItem(LS,JSON.stringify({a:answers,c:correctMap,e:explanations,bm:bookmarks}))}catch(e){}}
 function _l(){try{var d=JSON.parse(localStorage.getItem(LS)||"{}");answers=d.a||{};correctMap=d.c||{};explanations=d.e||{};bookmarks=d.bm||[];}catch(e){}}
 
@@ -277,7 +277,7 @@ init();
 function render(){
   if(!QS.length)return;
   var q=QS[currentIdx],idx=currentIdx;
-  var typeNames={"True/False":"True/False","Single Choice":"Single Choice","Multiple Choice":"Multiple Choice"};
+  var typeNames={"True/False":"True/False","Single Choice":"Single Choice","Terminology":"Terminology","Short Answer":"Short Answer","Multiple Choice":"Multiple Choice"};
   document.getElementById("qType").textContent=q.t||"Single Choice";
   document.getElementById("qCat").textContent=q.c||"General";
   document.getElementById("qNum").textContent=(idx+1)+"/"+QS.length;
@@ -286,6 +286,8 @@ function render(){
   // Hint text
   var hint="";
   if(q.t==="True/False")hint="Select True or False.";
+  else if(q.t==="Terminology")hint="请解释以下药理学名词的含义。";
+  else if(q.t==="Short Answer")hint="请简要回答以下问题。点击「Show Answer」查看答案。";
   else if(q.t==="Multiple Choice")hint="This question has multiple correct answers. Select all that apply and click Submit.";
   document.getElementById("qHint").textContent=hint;
 

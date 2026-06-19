@@ -20,7 +20,7 @@ for i in range(1, 4):
     h.font.color.rgb = RGBColor(0x2c, 0x52, 0x82)
 
 # Load chapter stats
-with open(os.path.join(BASE, 'chapter_stats.json')) as f:
+with open(os.path.join(BASE, 'pharmacology_quiz', 'chapter_stats.json')) as f:
     chapter_stats = json.load(f)
 
 # Chapter titles
@@ -265,6 +265,7 @@ doc.add_paragraph(
     '是非题：阅读题目 → 点击"正确"或"错误"按钮 → 立即显示对错和解析\n'
     '单选题：阅读题目 → 点击A-E选项 → 立即显示对错和解析\n'
     '简答题(多选)：阅读题目 → 勾选所有你认为正确的选项 → 点击"确认提交" → 显示对错和解析\n\n'
+    '收藏题目：点击题目右上角 ☆ 按钮收藏（变 ★），再次点击取消。收藏的题目可通过模式菜单中的「收藏」选项集中复习。\n\n'
     '导航方式：\n'
     '• 底部 ◀ ▶ 按钮前后翻题\n'
     '• 点阵导航：顶部的数字网格可快速跳转到任意题号\n'
@@ -282,8 +283,14 @@ doc.add_paragraph(
     '  • 随机 — 随机抽取题目\n'
     '  • 错题 — 仅显示答错的题目（需先答过题）\n'
     '  • 未答 — 仅显示尚未作答的题目\n'
+    '  • 收藏 — 仅显示已收藏的题目（需先收藏题目）\n'
+    '收藏功能：\n'
+    '  • 每道题目右上角有星号按钮（☆），点击即可收藏（变为 ★）\n'
+    '  • 再次点击取消收藏（变回 ☆）\n'
+    '  • 收藏数据自动保存在手机浏览器中，关闭页面后不丢失\n'
+    '  • 选择「收藏」模式后，◀ ▶ 翻题仅在已收藏的题目中导航\n'
     '显示答案：查看当前题目的正确答案（标记为"跳过"）\n'
-    '重置：清除当前章节的全部答题进度（需确认）\n'
+    '重置：清除当前章节的全部答题进度和收藏（需确认）\n'
     '统计面板：显示已答题数、正确数、正确率'
 )
 doc.add_page_break()
@@ -621,6 +628,6 @@ for q, a in faqs:
 # ============================================================
 # SAVE
 # ============================================================
-output_path = os.path.join(BASE, 'Pharmacology_manu.docx')
+output_path = os.path.join(BASE, 'pharmacology_quiz', 'Pharmacology_manu.docx')
 doc.save(output_path)
 print(f'Manual saved: {output_path}')
