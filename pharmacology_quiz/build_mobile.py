@@ -268,6 +268,13 @@ select,button{padding:7px 10px;border:1px solid var(--b);border-radius:8px;font-
       <option value="all">顺序</option><option value="rnd">随机</option>
       <option value="wrong">错题</option><option value="unans">未答</option><option value="bm">收藏</option>
     </select>
+    <select id="typeSel" onchange="applyFilter()">
+      <option value="all">全部题型</option>
+      <option value="是非题">是非题</option>
+      <option value="单选题">单选题</option>
+      <option value="名词解释">名词解释</option>
+      <option value="简答题">简答题</option>
+    </select>
     <div class="flex1"></div>
     <button class="btn-o" onclick="resetAll()">重置</button>
   </div>
@@ -523,25 +530,26 @@ function updateStats(){
 }
 
 function applyFilter(){
-  var mode=document.getElementById("modeSel").value,cat=document.getElementById("catSel").value;
+  var mode=document.getElementById("modeSel").value,cat=document.getElementById("catSel").value,type=document.getElementById("typeSel").value;
   var pool=QS.slice();
   if(cat!=="all")pool=pool.filter(function(q){return q.c===cat});
+  if(type!=="all")pool=pool.filter(function(q){return q.t===type});
 
   if(mode==="all"||mode==="rnd"){
     filtered=[];filterIdx=0;activeFilter=null;
-    if(cat!=="all"){
-      // When category filter is active, use filtered pool for nav
+    if(cat!=="all"||type!=="all"){
+      // When category or type filter is active, use filtered pool for nav
       filtered=pool.map(function(q){return QS.indexOf(q)});
-      activeFilter="cat";
+      activeFilter="filter";
       filterIdx=0;
-      currentIdx=filtered[0]||0;
+      currentIdx=filtered.length>0?filtered[0]:0;
     }else{
       if(mode==="rnd")currentIdx=pool.length>0?QS.indexOf(pool[Math.floor(Math.random()*pool.length)]):0;
       else currentIdx=pool.length>0?QS.indexOf(pool[0]):0;
     }
   }else{
     var sub=[];
-    if(mode==="wrong")sub=pool.filter(function(q){return answers[q.id]&&answers[q.id]!=="__SKIP__"&&!_isCorrect(q.id)});
+    if(mode==="wrong")sub=pool.filter(function(q){return answers[q.id]!==undefined&&answers[q.id]!=="__SKIP__"&&!_isCorrect(q.id)});
     else if(mode==="unans")sub=pool.filter(function(q){return!answers[q.id]});
     else if(mode==="bm")sub=pool.filter(function(q){return bookmarks.indexOf(q.id)>=0});
 
@@ -689,7 +697,8 @@ def build(expire_date: str, max_days: int = 0, output: str = DEFAULT_OUTPUT, mod
 
         # ---- JS complete strings (longest first) ----
         html = html.replace('判断正误，选择「正确」或「错误」。', 'Select True or False.')
-        html = html.replace('本题有多个正确答案，请选择所有你认为正确的选项后点击「确认提交」。', 'This question has multiple correct answers. Select all that apply and click Submit.')
+        # Removed: 简答题(多选) hint text translation (this question type no longer exists)
+        # html = html.replace('本题有多个正确答案，请选择所有你认为正确的选项后点击「确认提交」。', 'This question has multiple correct answers. Select all that apply and click Submit.')
         html = html.replace('请至少选择一个选项！', 'Please select at least one option!')
         html = html.replace('暂无错题！', 'No wrong answers!')
         html = html.replace('全部答完！', 'All questions answered!')
@@ -708,17 +717,25 @@ def build(expire_date: str, max_days: int = 0, output: str = DEFAULT_OUTPUT, mod
         html = html.replace("，已到期。", ". It has expired.")
 
         # ---- JS type names ----
-        html = html.replace('"是非题":"是非题 (True/False)"', '"True/False":"True/False"')
-        html = html.replace('"单选题":"单选题"', '"Single Choice":"Single Choice"')
-        html = html.replace('"简答题(多选)":"简答题 (多选)"', '"Multiple Choice":"Multiple Choice"')
-        html = html.replace('"简答题":"简答题"', '"Short Answer":"Short Answer"')
-        html = html.replace('"名词解释":"名词解释"', '"Terminology":"Terminology"')
+        # When building from CN CSVs, keep Chinese type names in data comparisons
+        # Only translate display labels (dropdown text, not option values)
+        # Remove the old translations that break q.t matching against CN CSV data
 
         # ---- JS type comparisons (q.t checks) ----
-        html = html.replace('q.t==="是非题"', 'q.t==="True/False"')
-        html = html.replace('q.t==="简答题(多选)"', 'q.t==="Multiple Choice"')
-        html = html.replace('q.t==="简答题"', 'q.t==="Short Answer"')
-        html = html.replace('q.t==="名词解释"', 'q.t==="Terminology"')
+        # DON'T translate: keep Chinese comparisons to match CN CSV data
+        # html = html.replace('q.t==="是非题"', 'q.t==="True/False"')
+        # html = html.replace('q.t==="简答题(多选)"', 'q.t==="Multiple Choice"')
+        # html = html.replace('q.t==="简答题"', 'q.t==="Short Answer"')
+        # html = html.replace('q.t==="名词解释"', 'q.t==="Terminology"')
+
+        # ---- JS type hint messages (translate the hint TEXT but keep Chinese comparisons) ----
+        html = html.replace('if(q.t==="是非题")hint="判断正误，选择「正确」或「错误」。"', 'if(q.t==="是非题")hint="Select True or False."')
+        html = html.replace('else if(q.t==="名词解释")hint="请解释以下药理学名词的含义。"', 'else if(q.t==="名词解释")hint="Define the following pharmacology term."')
+        html = html.replace('else if(q.t==="简答题")hint="请简要回答以下问题。点击「显示答案」查看答案。"', 'else if(q.t==="简答题")hint="Provide a brief answer to the following question. Click Show Answer to view."')
+        # Remove obsolete 简答题(多选) hint
+        html = html.replace('else if(q.t==="简答题(多选)")hint="本题有多个正确答案，请选择所有你认为正确的选项后点击「确认提交」。";', '')
+        # Remove obsolete isMulti check
+        html = html.replace('  var isMulti=q.t==="简答题(多选)";', '  var isMulti=false;')
 
         # ---- Category dropdown: "全部 (N题)" -> "All (N questions)" (before 全部 replacement) ----
         import re
@@ -733,9 +750,17 @@ def build(expire_date: str, max_days: int = 0, output: str = DEFAULT_OUTPUT, mod
         html = html.replace("抗病毒药题库", title or "Pharmacology Quiz")
         html = html.replace("抗病毒药训练题库", title or "Pharmacology Quiz Bank")
         html = html.replace("药理学第四十四章", title or "Pharmacology Chapter")
-        html = html.replace('q.t||"单选题"', 'q.t||"Single Choice"')
+        html = html.replace('q.t||"单选题"', 'q.t||"单选题"')
         html = html.replace('q.c||"综合"', 'q.c||"General"')
         html = html.replace("全部 ('+QS.length+'题)", "All ('+QS.length+' questions)")
+        # ---- Remove obsolete Multiple Choice type name mapping ----
+        html = html.replace('"简答题(多选)":"简答题 (多选)"', '')
+        # Remove obsolete hint for 简答题(多选)
+        html = html.replace('else if(q.t==="简答题(多选)")hint="本题有多个正确答案，请选择所有你认为正确的选项后点击「确认提交」。";', '')
+        # Remove obsolete multi-select rendering block
+        html = html.replace('    if(q.t==="简答题(多选)"){', '    if(false){')
+        # Remove obsolete isMulti block for 简答题(多选) rendering
+        html = html.replace('    if(q.t==="简答题(多选)"){', '    /* isMulti handled above */ if(false){')
 
         # ---- Select dropdown options ----
         html = html.replace('value="all">全部</option>', 'value="all">All</option>')
@@ -744,6 +769,13 @@ def build(expire_date: str, max_days: int = 0, output: str = DEFAULT_OUTPUT, mod
         html = html.replace('value="wrong">错题</option>', 'value="wrong">Wrong</option>')
         html = html.replace('value="unans">未答</option>', 'value="unans">Unanswered</option>')
         html = html.replace('value="bm">收藏</option>', 'value="bm">Bookmarks</option>')
+
+        # ---- Type filter dropdown ----
+        html = html.replace('<option value="all">全部题型</option>', '<option value="all">All Types</option>')
+        html = html.replace('<option value="是非题">是非题</option>', '<option value="是非题">True/False</option>')
+        html = html.replace('<option value="单选题">单选题</option>', '<option value="单选题">Single Choice</option>')
+        html = html.replace('<option value="名词解释">名词解释</option>', '<option value="名词解释">Terminology</option>')
+        html = html.replace('<option value="简答题">简答题</option>', '<option value="简答题">Short Answer</option>')
 
         # ---- Single-char labels (AFTER multi-char) ----
         html = html.replace("已答", "Answered")
