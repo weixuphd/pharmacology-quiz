@@ -52,7 +52,7 @@ def load_questions(path: str) -> list[dict]:
                 "t": row.get("type", "单选题").strip(),
                 "q": row["question"].strip(),
                 "o": options,
-                "a": row["correct"].strip().upper(),
+                "a": row["correct"].strip().upper() if row.get("type", "").strip() in ("单选题", "True/False") else row["correct"].strip(),
                 "e": row["explanation"].strip(),
                 "c": row.get("category", "").strip(),
             })
@@ -755,6 +755,11 @@ def build(expire_date: str, max_days: int = 0, output: str = DEFAULT_OUTPUT, mod
         html = html.replace("全部 ('+QS.length+'题)", "All ('+QS.length+' questions)")
         # ---- Remove obsolete Multiple Choice type name mapping ----
         html = html.replace('"简答题(多选)":"简答题 (多选)"', '')
+        # Translate typeNames values to English (keys stay Chinese to match data)
+        html = html.replace('"是非题":"是非题 (True/False)"', '"是非题":"True/False"')
+        html = html.replace('"单选题":"单选题"', '"单选题":"Single Choice"')
+        html = html.replace('"名词解释":"名词解释"', '"名词解释":"Terminology"')
+        html = html.replace('"简答题":"简答题"', '"简答题":"Short Answer"')
         # Remove obsolete hint for 简答题(多选)
         html = html.replace('else if(q.t==="简答题(多选)")hint="本题有多个正确答案，请选择所有你认为正确的选项后点击「确认提交」。";', '')
         # Remove obsolete multi-select rendering block
