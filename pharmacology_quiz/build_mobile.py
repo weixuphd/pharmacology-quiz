@@ -750,16 +750,16 @@ def build(expire_date: str, max_days: int = 0, output: str = DEFAULT_OUTPUT, mod
         html = html.replace("抗病毒药题库", title or "Pharmacology Quiz")
         html = html.replace("抗病毒药训练题库", title or "Pharmacology Quiz Bank")
         html = html.replace("药理学第四十四章", title or "Pharmacology Chapter")
-        html = html.replace('q.t||"单选题"', 'q.t||"单选题"')
+        html = html.replace('q.t||"单选题"', 'q.t||"Single Choice"')
         html = html.replace('q.c||"综合"', 'q.c||"General"')
         html = html.replace("全部 ('+QS.length+'题)", "All ('+QS.length+' questions)")
         # ---- Remove obsolete Multiple Choice type name mapping ----
         html = html.replace('"简答题(多选)":"简答题 (多选)"', '')
-        # Translate typeNames values to English (keys stay Chinese to match data)
-        html = html.replace('"是非题":"是非题 (True/False)"', '"是非题":"True/False"')
-        html = html.replace('"单选题":"单选题"', '"单选题":"Single Choice"')
-        html = html.replace('"名词解释":"名词解释"', '"名词解释":"Terminology"')
-        html = html.replace('"简答题":"简答题"', '"简答题":"Short Answer"')
+        # Translate typeNames: both keys AND values to English for EN CSV data
+        html = html.replace('"是非题":"是非题 (True/False)"', '"True/False":"True/False"')
+        html = html.replace('"单选题":"单选题"', '"Single Choice":"Single Choice"')
+        html = html.replace('"名词解释":"名词解释"', '"Terminology":"Terminology"')
+        html = html.replace('"简答题":"简答题"', '"Short Answer":"Short Answer"')
         # Remove obsolete hint for 简答题(多选)
         html = html.replace('else if(q.t==="简答题(多选)")hint="本题有多个正确答案，请选择所有你认为正确的选项后点击「确认提交」。";', '')
         # Remove obsolete multi-select rendering block
@@ -777,10 +777,17 @@ def build(expire_date: str, max_days: int = 0, output: str = DEFAULT_OUTPUT, mod
 
         # ---- Type filter dropdown ----
         html = html.replace('<option value="all">全部题型</option>', '<option value="all">All Types</option>')
-        html = html.replace('<option value="是非题">是非题</option>', '<option value="是非题">True/False</option>')
-        html = html.replace('<option value="单选题">单选题</option>', '<option value="单选题">Single Choice</option>')
-        html = html.replace('<option value="名词解释">名词解释</option>', '<option value="名词解释">Terminology</option>')
-        html = html.replace('<option value="简答题">简答题</option>', '<option value="简答题">Short Answer</option>')
+        # For EN: change dropdown VALUE to match EN CSV type names (True/False, Single Choice, etc.)
+        # so the filter q.t===type works correctly. Value must change BEFORE display text.
+        html = html.replace('<option value="是非题">', '<option value="True/False">')
+        html = html.replace('<option value="单选题">', '<option value="Single Choice">')
+        html = html.replace('<option value="名词解释">', '<option value="Terminology">')
+        html = html.replace('<option value="简答题">', '<option value="Short Answer">')
+        # Now translate display labels
+        html = html.replace('>是非题</option>', '>True/False</option>')
+        html = html.replace('>单选题</option>', '>Single Choice</option>')
+        html = html.replace('>名词解释</option>', '>Terminology</option>')
+        html = html.replace('>简答题</option>', '>Short Answer</option>')
 
         # ---- Single-char labels (AFTER multi-char) ----
         html = html.replace("已答", "Answered")

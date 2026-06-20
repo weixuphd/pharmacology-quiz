@@ -150,10 +150,10 @@ select,button{padding:7px 10px;border:1px solid var(--b);border-radius:8px;font-
     </select>
     <select id="typeSel" onchange="applyFilter()">
       <option value="all">All Types</option>
-      <option value="是非题">True/False</option>
-      <option value="单选题">Single Choice</option>
-      <option value="名词解释">Terminology</option>
-      <option value="简答题">Short Answer</option>
+      <option value="True/False">True/False</option>
+      <option value="Single Choice">Single Choice</option>
+      <option value="Terminology">Terminology</option>
+      <option value="Short Answer">Short Answer</option>
     </select>
     <div class="flex1"></div>
     <button class="btn-o" onclick="resetAll()">Reset</button>
@@ -198,14 +198,14 @@ select,button{padding:7px 10px;border:1px solid var(--b);border-radius:8px;font-
 
 <script>
 // ===== EXPIRY CONFIG =====
-var __EXP={date:"2026-12-31",sig:"na",maxDays:90,build:"202606201034"};
+var __EXP={date:"2026-12-31",sig:"na",maxDays:90,build:"202606201206"};
 
 (function(){
   var raw=__EXP.date+":"+__EXP.maxDays+":"+__EXP.build,h=0;
   for(var i=0;i<raw.length;i++)h=((h*31)+raw.charCodeAt(i))>>>0;
   h=((h>>>16)^(h&0xFFFF)).toString(16);
   if(h.length<4)h="0".repeat(4-h.length)+h;
-  if(h!=="8700"){
+  if(h!=="8e3b"){
     document.body.innerHTML='<div style="padding:40px;text-align:center;color:#dc2626;font-size:1.1rem">Application verification failed. Please obtain a new copy from your instructor.</div>';
     throw new Error("integrity");
   }
@@ -284,8 +284,8 @@ init();
 function render(){
   if(!QS.length)return;
   var q=QS[currentIdx],idx=currentIdx;
-  var typeNames={"是非题":"True/False","单选题":"Single Choice","名词解释":"Terminology","简答题":"Short Answer",};
-  document.getElementById("qType").textContent=q.t||"单选题";
+  var typeNames={"True/False":"True/False","Single Choice":"Single Choice","Terminology":"Terminology","Short Answer":"Short Answer",};
+  document.getElementById("qType").textContent=q.t||"Single Choice";
   document.getElementById("qCat").textContent=q.c||"General";
   document.getElementById("qNum").textContent=(idx+1)+"/"+QS.length;
   document.getElementById("qText").textContent=q.q;
